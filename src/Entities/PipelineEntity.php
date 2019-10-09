@@ -108,7 +108,6 @@ class PipelineEntity extends BaseEntity
     public function addStatus()
     {
         $this->newStatusCount++;
-        debug($this->newStatusCount);
         return $this->statuses["new_$this->newStatusCount"] = new StatusEntity(null, $this->id, count($this->statuses));
     }
 
