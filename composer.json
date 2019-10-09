@@ -1,15 +1,13 @@
 {
-    "name": "",
-    "description": "",
-    "require": {
+    "name": "AmoCRMPHPSDK",
+    "description": "SDK для работы с API AmoCRM",
+    "require": {},
+    "require-dev": {
         "chikis/omdebuger": "^1.0"
     },
-    "require-dev": {
-        "fzaninotto/faker": "^1.8"
-    },
     "autoload": {
-        "classmap": [
-            "src/"
-        ]
+        "psr-4": {
+            "AmoCRM\\": "src"
+        }
     }
 }
