@@ -385,4 +385,15 @@ class IncomingLeadSipEntity extends BaseEntity
       }
       return $this;
    }
+
+   /**
+    * Undocumented function
+    *
+    * @param LeadEntity $lead
+    * @return void
+    */
+   public function setLead($lead)
+   {
+      $this->incoming_entities['leads'][0] = $lead->generateQuery();
+   }
 }
