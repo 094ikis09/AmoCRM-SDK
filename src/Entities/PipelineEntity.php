@@ -6,6 +6,10 @@ namespace AmoCRM\Entities;
 
 class PipelineEntity extends BaseEntity
 {
+
+    private $newStatusCount = 0;
+
+
     /**
      * @var string
      */
@@ -51,6 +55,7 @@ class PipelineEntity extends BaseEntity
     public function setName($name)
     {
         $this->name = $name;
+        return $this;
     }
 
     /**
@@ -59,6 +64,7 @@ class PipelineEntity extends BaseEntity
     public function setSort($sort)
     {
         $this->sort = $sort;
+        return $this;
     }
 
     /**
@@ -67,8 +73,14 @@ class PipelineEntity extends BaseEntity
     public function setIsMain($is_main)
     {
         $this->is_main = $is_main;
+        return $this;
     }
 
+    /**
+     * Statuses
+     *
+     * @var StatusEntity[]
+     */
     protected $statuses = array();
 
     public function __construct($entity = null)
@@ -78,7 +90,9 @@ class PipelineEntity extends BaseEntity
             $this->name = $entity['name'];
             $this->sort = $entity['sort'];
             $this->is_main = $entity['is_main'];
-            $this->statuses = $entity['statuses'];
+            foreach ($entity['statuses'] as $key => $value) {
+                $this->statuses[$key] = new StatusEntity($value, $this->id);
+            }
         }
     }
 
@@ -90,8 +104,41 @@ class PipelineEntity extends BaseEntity
         return $this->is_main;
     }
 
-    public function getId()
+
+    public function addStatus()
     {
-        return $this->id;
+        $this->newStatusCount++;
+        debug($this->newStatusCount);
+        return $this->statuses["new_$this->newStatusCount"] = new StatusEntity(null, $this->id, count($this->statuses));
+    }
+
+    public function getStatusByID($id)
+    {
+        return $this->statuses[$id];
+    }
+
+    /**
+     * Получить воронки с указаным наименованием
+     *
+     * @param string $name
+     * @return StatusEntity[]
+     */
+    public function getStatusByName($name)
+    {
+        $temp = array();
+        foreach ($this->statuses as $key => $value) {
+            if (mb_strtolower($value->getName()) === mb_strtolower($name))
+                $temp[] = $value;
+        }
+        return $temp;
+    }
+
+    public function removeStatus($status)
+    {
+        $id = array_search($status, $this->statuses);
+        if ($id !== false) {
+            unset($this->statuses[$id]);
+        }
+        return $this;
     }
 }

@@ -9,7 +9,6 @@ use AmoCRM\Exceptions\AmoCRMCatalogElementsException;
 use AmoCRM\Exceptions\AmoCRMCatalogsException;
 use AmoCRM\Exceptions\AmoCRMContactsException;
 use AmoCRM\Exceptions\AmoCRMCustomersException;
-use AmoCRM\Exceptions\AmoCRMEmptyResponseException;
 use AmoCRM\Exceptions\AmoCRMException;
 use AmoCRM\Exceptions\AmoCRMLeadsException;
 use AmoCRM\Exceptions\AmoCRMNotesException;
@@ -75,7 +74,6 @@ interface AmoCRMInterface
      * @throws AmoCRMCatalogsException
      * @throws AmoCRMContactsException
      * @throws AmoCRMCustomersException
-     * @throws AmoCRMEmptyResponseException
      * @throws AmoCRMException
      * @throws AmoCRMLeadsException
      * @throws AmoCRMNotesException
@@ -85,8 +83,10 @@ interface AmoCRMInterface
     public function call(
         $methodName,
         array $getParameters = array(),
-        $postParameters = array(),
-        $modified = null
+        array $postParameters = array(),
+        $modified = null,
+        $ajax = false,
+        $auth = false
     );
 
     /**
@@ -143,20 +143,4 @@ interface AmoCRMInterface
      * @return bool
      */
     public function getSslVerify();
-
-    /**
-     * Задает проверку исключения при пустом ответе
-     *
-     * @param boolean $isEnable
-     * @return AmoCRMInterface
-     * @throws AmoCRMException
-     */
-    public function setThrowWhenEmptyResponse($isEnable);
-
-    /**
-     * Возвращает задана ли проверка исключения при пустом ответе
-     *
-     * @return bool
-     */
-    public function getThrowWhenEmptyResponse();
 }

@@ -9,7 +9,6 @@ use AmoCRM\Exceptions\AmoCRMCatalogElementsException;
 use AmoCRM\Exceptions\AmoCRMCatalogsException;
 use AmoCRM\Exceptions\AmoCRMContactsException;
 use AmoCRM\Exceptions\AmoCRMCustomersException;
-use AmoCRM\Exceptions\AmoCRMEmptyResponseException;
 use AmoCRM\Exceptions\AmoCRMException;
 use AmoCRM\Exceptions\AmoCRMIoException;
 use AmoCRM\Exceptions\AmoCRMLeadsException;
@@ -28,14 +27,6 @@ use DateTime;
  */
 class AmoCRM implements AmoCRMInterface
 {
-
-    /**
-     * Проверка: выводить исключение при пустом ответе
-     *
-     * @var boolean $throwWhenEmptyResponse
-     */
-    protected $throwWhenEmptyResponse = false;
-
     /**
      * Последный запрошенный метод
      *
@@ -240,35 +231,19 @@ class AmoCRM implements AmoCRMInterface
         return $this->sslVerify;
     }
 
-    public function setThrowWhenEmptyResponse($isEnable)
-    {
-        if (!is_bool($isEnable)) {
-            throw new AmoCRMException('$isEnable не является булевой');
-        }
-        $this->throwWhenEmptyResponse = $isEnable;
-        return $this;
-    }
-
-    public function getThrowWhenEmptyResponse()
-    {
-        return $this->throwWhenEmptyResponse;
-    }
-
-
     public function call(
         $methodName,
         array $getParameters = array(),
-        $postParameters = array(),
+        array $postParameters = array(),
         $modified = null,
-        $ajax = false
+        $ajax = false,
+        $auth = false
     ) {
         if (!is_string($methodName)) {
             throw new AmoCRMException('$methodName должна быть строкой');
         } elseif (trim($methodName) == false) {
             throw new AmoCRMException('Укажите метод');
-        } //elseif (preg_match('/^\/.*\/v2\/(.*)[^\/]$/', trim($methodName)) == false) {
-        //     throw new AmoCRMException('Неверный формат метода');
-        // }
+        }
 
         $this->lastExecuteMethod = rtrim(strtolower(trim($methodName)), '/');
 
@@ -282,7 +257,6 @@ class AmoCRM implements AmoCRMInterface
                 'Content-Type: application/json',
             );
         }
-
 
         if (isset($modified)) {
             if (is_string($modified)) {
@@ -309,16 +283,12 @@ class AmoCRM implements AmoCRMInterface
             null,
             '&'
         );
-
-        $query = sprintf('https://%s.amocrm.ru%s?%s', $this->getSubDomain(), $this->lastExecuteMethod, $query);
-
-        $result = $this->executeRequest($query, $headers, $postParameters, $ajax);
-
-        // debug($result);
-        // debug(trim($methodName));
-        if ($this->lastHttpCode === 204 && $this->throwWhenEmptyResponse) {
-            throw new AmoCRMEmptyResponseException(2002, 'По вашему запросу ничего не найдено');
+        if ($auth) {
+            $this->authAmo();
         }
+        $query = sprintf('https://%s.amocrm.ru%s?%s', $this->getSubDomain(), $this->lastExecuteMethod, $query);
+        $result = $this->executeRequest($query, $headers, $postParameters, $ajax, $auth);
+
         if (isset($result['response']['error'])) {
             $errorResult['code'] = $result['response']['error_code'];
             $errorResult['message'] = $result['response']['error'];
@@ -391,6 +361,29 @@ class AmoCRM implements AmoCRMInterface
         }
     }
 
+    protected function authAmo()
+    {
+        $user = array(
+            'USER_LOGIN' => $this->getLogin(),
+            'USER_HASH' => $this->getKeyAPI()
+        );
+        $link = 'https://' . $this->getSubDomain() . '.amocrm.ru/private/api/auth.php?type=json';
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_USERAGENT, 'amoCRM-API-client/1.0');
+        curl_setopt($curl, CURLOPT_URL, $link);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($user));
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_COOKIEFILE, dirname(__FILE__) . '/Cookies/cookie.txt');
+        curl_setopt($curl, CURLOPT_COOKIEJAR, dirname(__FILE__) . '/Cookies//cookie.txt');
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_exec($curl);
+        curl_close($curl);
+    }
+
     /**
      * Выполняет запрос
      *
@@ -400,7 +393,7 @@ class AmoCRM implements AmoCRMInterface
      * @return array - Ответ от AmoCRM
      * @throws AmoCRMException
      */
-    protected function executeRequest($url, array $headers, $postParameters = array(), $ajax = false)
+    protected function executeRequest($url, array $headers, array $postParameters = array(), $ajax, $auth)
     {
         $retryableErrorCodes = array(
             CURLE_COULDNT_RESOLVE_HOST,
@@ -422,6 +415,10 @@ class AmoCRM implements AmoCRMInterface
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_ENCODING => '',
         );
+        if ($auth) {
+            $curlOptions[CURLOPT_COOKIEFILE] = dirname(__FILE__) . '/Cookies/cookie.txt';
+            $curlOptions[CURLOPT_COOKIEJAR] = dirname(__FILE__) . '/Cookies/cookie.txt';
+        }
         if (count($postParameters) > 0) {
             $curlOptions[CURLOPT_POST] = true;
             if (!$ajax) {
@@ -468,7 +465,7 @@ class AmoCRM implements AmoCRMInterface
         $jsonResult = json_decode($curlResult, true);
         unset($curlResult);
         $jsonErrorCode = json_last_error();
-        if ($jsonResult !== null && (JSON_ERROR_NONE !== $jsonErrorCode)) {
+        if (null !== $jsonResult && (JSON_ERROR_NONE !== $jsonErrorCode)) {
             /**
              * @todo add function json_last_error_msg() if php >= 5.5
              */
