@@ -466,10 +466,7 @@ class AmoCRM implements AmoCRMInterface
         unset($curlResult);
         $jsonErrorCode = json_last_error();
         if (null !== $jsonResult && (JSON_ERROR_NONE !== $jsonErrorCode)) {
-            /**
-             * @todo add function json_last_error_msg() if php >= 5.5
-             */
-            $errorMsg = 'Фатальная ошибка в методе json_decode.' . PHP_EOL . 'Код ошибки: ' . $jsonErrorCode . PHP_EOL;
+            $errorMsg = json_last_error_msg() . PHP_EOL . 'Код ошибки: ' . $jsonErrorCode . PHP_EOL;
             throw new AmoCRMException($errorMsg);
         }
         return $jsonResult;
