@@ -55,4 +55,15 @@ class IncomingLeadSipEntity extends BaseEntity
       $this->incoming_lead_info['service_code'] = strtotime($service_code);
       return $this;
    }
+
+   /**
+    * Undocumented function
+    *
+    * @param LeadEntity $lead
+    * @return void
+    */
+   public function setLead($lead)
+   {
+      $this->incoming_entities['leads'][0] = $lead->generateQuery();
+   }
 }
