@@ -1,0 +1,15 @@
+{
+    "name": "",
+    "description": "",
+    "require": {
+        "chikis/omdebuger": "^1.0"
+    },
+    "require-dev": {
+        "fzaninotto/faker": "^1.8"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    }
+}
