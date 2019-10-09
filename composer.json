@@ -2,10 +2,10 @@
     "name": "chikis/amocrm-phpsdk",
     "description": "SDK для работы с API AmoCRM",
     "require": {},
-    "license": "MIT",
     "require-dev": {
         "chikis/omdebuger": "^1.0"
     },
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "AmoCRM\\": "src"
