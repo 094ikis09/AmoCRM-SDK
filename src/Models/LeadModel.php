@@ -73,4 +73,24 @@ class LeadModel extends BaseModel
       );
       return new LeadEntity($lead['_embedded']['items'][0]);
    }
+
+   public function removeLeads($leads)
+   {
+      $temp['request']['multiactions']['add'][0] = array();
+      if (is_array($leads)) {
+         foreach ($leads as $item) {
+            if ($item instanceof LeadEntity) {
+               $temp['request']['multiactions']['add'][0]['ids'][] = $item->getId();
+            } else {
+               throw new AmoCRMException('Указан не вернный параметр');
+            }
+         }
+      } else {
+         $temp['request']['multiactions']['add'][0]['ids'][] = $leads->getId();
+      }
+      $temp['request']['multiactions']['add'][0]['data']['data']['ACTION'] = 'DELETE';
+      $temp['request']['multiactions']['add'][0]['entity_type'] = 2;
+      $temp['request']['multiactions']['add'][0]['multiaction_type'] = 4;
+      return $this->client->call('/ajax/v1/multiactions/set', array(), $temp, null, false);
+   }
 }
