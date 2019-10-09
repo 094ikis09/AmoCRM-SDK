@@ -1,5 +1,5 @@
 {
-    "name": "chikis/AmoCRMPHPSDK",
+    "name": "chikis/amocrm-phpsdk",
     "description": "SDK для работы с API AmoCRM",
     "require": {},
     "require-dev": {
