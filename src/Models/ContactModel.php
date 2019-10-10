@@ -11,7 +11,7 @@ class ContactModel extends BaseModel
     * Undocumented function
     *
     * @param [type] $query
-    * @return ContactEntity
+    * @return ContactEntity[]
     */
    public function getContacts($query = null)
    {
