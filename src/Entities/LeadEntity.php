@@ -142,10 +142,12 @@ class LeadEntity extends BaseEntity
          }
       }
       $this->addCustomField($id, $value);
+      return $this;
    }
 
    public function setContacts($contacts)
    {
       $this->contacts_id = $contacts;
+      return $this;
    }
 }
