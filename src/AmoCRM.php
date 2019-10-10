@@ -376,6 +376,9 @@ class AmoCRM implements AmoCRMInterface
         curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($user));
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         curl_setopt($curl, CURLOPT_HEADER, false);
+        if (!file_exists(dirname(__FILE__) . '/Cookies')) {
+            mkdir(dirname(__FILE__) . '/Cookies', 0777, true);
+        }
         curl_setopt($curl, CURLOPT_COOKIEFILE, dirname(__FILE__) . '/Cookies/cookie.txt');
         curl_setopt($curl, CURLOPT_COOKIEJAR, dirname(__FILE__) . '/Cookies//cookie.txt');
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
