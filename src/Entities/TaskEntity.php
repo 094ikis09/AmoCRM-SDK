@@ -11,11 +11,19 @@ class TaskEntity extends BaseEntity
 
    protected $task_type;
    protected $complete_till;
+   private $complete_till_at;
    protected $text;
    protected $responsible_user_id;
 
-   public function __construct()
-   { }
+   public function __construct($entity = null)
+   {
+      if (is_array($entity)) {
+         $this->task_type = $entity['task_type'];
+         $this->complete_till_at = $entity['complete_till_at'];
+         $this->text = $entity['text'];
+         $this->responsible_user_id = $entity['responsible_user_id'];
+      }
+   }
 
    /**
     * Set the value of task_type

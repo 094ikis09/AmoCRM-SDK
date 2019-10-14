@@ -43,4 +43,14 @@ class TaskModel extends BaseModel
       }
       return $temp;
    }
+
+   public function getTasksFromElement($id)
+   {
+      $temp = array();
+      $tasks = $this->client->call('/api/v2/tasks', array('element_id' => $id));
+      foreach ($tasks['_embedded']['items'] as $item) {
+         $temp[] = new TaskEntity($item);
+      }
+      return $temp;
+   }
 }
