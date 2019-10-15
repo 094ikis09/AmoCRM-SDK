@@ -23,6 +23,30 @@ class TaskModel extends BaseModel
       return $this->client->call('/api/v2/tasks', array(), $temp);
    }
 
+   public function getTaskById($id)
+   {
+
+      return new TaskEntity($this->client->call('/api/v2/tasks', array('id' => $id))['_embedded']['items'][0]);
+   }
+
+   public function updateTasks($tasks)
+   {
+      $temp['update'] = array();
+      if (is_array($tasks)) {
+         foreach ($tasks as $item) {
+            if ($item instanceof TaskEntity) {
+               $temp['update'][] = $item->generateQuery();
+            } else {
+               throw new AmoCRMException('Указан не вернный параметр');
+            }
+         }
+      } else {
+         $temp['update'][] = $tasks->generateQuery();
+      }
+      debug($temp);
+      return $this->client->call('/api/v2/tasks', array(), $temp);
+   }
+
    public function getTaskTypes()
    {
       $types = $this->client->call('/ajax/tasks/types', array(), array(), null, true);

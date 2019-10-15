@@ -14,6 +14,7 @@ class TaskEntity extends BaseEntity
    private $complete_till_at;
    protected $text;
    protected $responsible_user_id;
+   protected $updated_at;
 
    public function __construct($entity = null)
    {
@@ -22,6 +23,7 @@ class TaskEntity extends BaseEntity
          $this->complete_till_at = $entity['complete_till_at'];
          $this->text = $entity['text'];
          $this->responsible_user_id = $entity['responsible_user_id'];
+         $this->id = $entity['id'];
       }
    }
 
@@ -34,6 +36,12 @@ class TaskEntity extends BaseEntity
    {
       $this->task_type = $task_type;
 
+      return $this;
+   }
+
+   public function setUpdatedAt($date)
+   {
+      $this->updated_at = strtotime($date);
       return $this;
    }
 
