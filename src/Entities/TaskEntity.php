@@ -110,6 +110,12 @@ class TaskEntity extends BaseEntity
       return $this;
    }
 
+   public function setUpdatedAt($date)
+   {
+      $this->updated_at = strtotime($date);
+      return $this;
+   }
+
    /**
     * Получить дату, до которой необходимо завершить задачу
     *
