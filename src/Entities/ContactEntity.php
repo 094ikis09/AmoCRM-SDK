@@ -107,4 +107,12 @@ class ContactEntity extends BaseEntity
     {
         return $this->id;
     }
+
+    /**
+     * Get the value of responsible_user_id
+     */
+    public function getResponsible_user_id()
+    {
+        return $this->responsible_user_id;
+    }
 }
