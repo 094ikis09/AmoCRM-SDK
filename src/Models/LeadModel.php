@@ -7,6 +7,17 @@ use AmoCRM\Exceptions\AmoCRMException;
 
 class LeadModel extends BaseModel
 {
+   /**
+    * Undocumented function
+    *
+    * @param integer $limitRows
+    * @param integer $limitOffset
+    * @param string $query
+    * @param string $with
+    * @param array $status
+    * @param array $filter
+    * @return LeadEntity[]
+    */
    public function getLeads($limitRows = 500, $limitOffset = 0, $query = '', $with = '', $status = array(), $filter = array())
    {
       $leads = $this->client->call(
