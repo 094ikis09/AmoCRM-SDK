@@ -150,4 +150,12 @@ class LeadEntity extends BaseEntity
       $this->contacts_id = $contacts;
       return $this;
    }
+
+   /**
+    * Get the value of responsible_user_id
+    */
+   public function getResponsibleUserId()
+   {
+      return $this->responsible_user_id;
+   }
 }
