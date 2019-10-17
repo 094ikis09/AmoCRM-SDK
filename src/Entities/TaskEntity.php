@@ -28,6 +28,11 @@ class TaskEntity extends BaseEntity
       $account_id,
       $group_id;
 
+   private $complete_till_at;
+   private $account_id;
+   private $group_id;
+
+
    public function __construct($entity = null)
    {
       if (is_array($entity)) {
@@ -45,6 +50,16 @@ class TaskEntity extends BaseEntity
          $this->complete_till_at = $entity['complete_till_at'];
          $this->text = $entity['text'];
       }
+   }
+
+
+   /**
+    * Получить уникальный идентификатор привязываемого элемента
+    * @return int
+    */
+   public function getElementId()
+   {
+      return $this->element_id;
    }
 
    /**
@@ -110,9 +125,41 @@ class TaskEntity extends BaseEntity
       return $this;
    }
 
-   public function setUpdatedAt($date)
+   /**
+    * Получить тип привязываемого элемента
+    * @return int
+    */
+   public function getElementType()
    {
-      $this->updated_at = strtotime($date);
+      return $this->element_type;
+   }
+
+   /**
+    * Задать тип привязываемого элемента
+    * - ElementType::CONTACT
+    * - ElementType::LEAD
+    * - ElementType::COMPANY
+    * - ElementType::CUSTOMER
+    * - ElementType::NONE
+    *
+    * @param int $element_type тип привязываемого элемента
+    * @return  self
+    */
+   public function setElementType($element_type)
+   {
+      if (!is_numeric($element_type)) {
+         throw new AmoCRMException('Передаваемая переменная не является числом');
+      } elseif (
+         $element_type != ElementType::CONTACT     &&
+         $element_type != ElementType::LEAD        &&
+         $element_type != ElementType::COMPANY     &&
+         $element_type != ElementType::CUSTOMER    &&
+         $element_type != ElementType::NONE
+      ) {
+         throw new AmoCRMException('Передаваемый тип не найден');
+      }
+      $this->element_type = $element_type;
+
       return $this;
    }
 
