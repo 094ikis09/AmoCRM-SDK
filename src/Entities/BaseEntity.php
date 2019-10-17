@@ -9,8 +9,16 @@ abstract class BaseEntity
 
     protected  $id;
 
-    public function generateQuery()
+    /**
+     * Получить структуру элемента для запроса
+     *
+     * @return void
+     */
+    public function generateQuery($type = null)
     {
+        if ($type != null) {
+            $this->checkFields($type);
+        }
         $temp = array();
         $class_vars = get_object_vars($this);
         foreach ($class_vars as $name => $value) {
@@ -32,5 +40,16 @@ abstract class BaseEntity
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Проверка заполнености полей
+     *
+     * @param string $type
+     * @return bool
+     */
+    protected function checkFields($type)
+    {
+        return true;
     }
 }
