@@ -110,7 +110,7 @@ class PipelineEntity extends BaseEntity
      * @param string $name
      * @return  self
      */
-    public function setName($name)
+    public function removeStatus($status)
     {
         if (!is_string($name)) {
             throw new AmoCRMException('Передаваемая переменная не является строкой');
