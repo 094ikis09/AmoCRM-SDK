@@ -6,6 +6,9 @@ use AmoCRM\Entities\BaseEntity;
 use AmoCRM\Entities\TaskEntity;
 use AmoCRM\Exceptions\AmoCRMException;
 
+/**
+ * Модель для работы с задачами
+ */
 class TaskModel extends BaseModel
 {
 
