@@ -5,6 +5,32 @@ namespace AmoCRM\Entities;
 class LeadEntity extends BaseEntity
 {
 
+   protected
+      $name,
+      $created_at,
+      $updated_at,
+      $status_id,
+      $pipeline_id,
+      $responsible_user_id,
+      $sale,
+      $tags = array(),
+      $contacts_id,
+      $company_id,
+      $custom_fields,
+      $catalog_elements_id,
+      $unlink;
+
+   private
+      $created_by,
+      $account_id,
+      $is_deleted,
+      $main_contact,
+      $group_id,
+      $company,
+      $closed_at,
+      $closest_task_at,
+      $contacts,
+      $pipeline;
 
    public function __construct($entity = null)
    {
