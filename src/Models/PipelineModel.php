@@ -120,13 +120,13 @@ class PipelineModel extends BaseModel
                 if (!($value instanceof PipelineEntity)) {
                     throw new AmoCRMException('Передан не верный параметр');
                 }
-                $aPipelines['request']['pipelines']['update'][$value->getId()] = $value->generateQuery();
+                $aPipelines['request']['pipelines']['update'][$value->getId()] = $value->generateQuery('update');
             }
         } else {
             if (!($pipelines instanceof PipelineEntity)) {
                 throw new AmoCRMException('Передан не верный параметр');
             }
-            $aPipelines['request']['pipelines']['update'][$pipelines->getId()] = $pipelines->generateQuery();
+            $aPipelines['request']['pipelines']['update'][$pipelines->getId()] = $pipelines->generateQuery('update');
         }
         return $this->client->call('/private/api/v2/json/pipelines/set', array(), $aPipelines);
     }
