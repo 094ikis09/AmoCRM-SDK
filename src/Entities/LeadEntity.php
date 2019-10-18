@@ -2,33 +2,9 @@
 
 namespace AmoCRM\Entities;
 
-use AmoCRM\Models\ContactModel;
-
 class LeadEntity extends BaseEntity
 {
 
-   protected $name;
-   protected $responsible_user_id;
-   protected $created_by;
-   protected $created_at;
-   protected $updated_at;
-   protected $account_id;
-   protected $updated_by;
-   protected $pipeline_id;
-   protected $status_id;
-   protected $is_deleted;
-   protected $main_contact;
-   protected $group_id;
-   protected $company;
-   protected $closed_at;
-   protected $closest_task_at;
-   protected $tags = array();
-   protected $custom_fields;
-   protected $sale;
-   protected $loss_reason_id;
-   protected $contacts;
-   protected $pipeline;
-   protected $contacts_id;
 
    public function __construct($entity = null)
    {
