@@ -264,4 +264,79 @@ class NoteEntity extends BaseEntity
 
       return $this;
    }
+
+   /**
+    * Получить массив, содержащий параметры
+    * @return array
+    */
+   public function getParams()
+   {
+      return $this->params;
+   }
+
+   /**
+    * Задать массив, содержащий параметры
+    * @param array $params
+    * @return  self
+    */
+   public function setParams($params)
+   {
+      if (!is_array($params)) {
+         throw new AmoCRMException('Передаваемая переменная не является массивом');
+      }
+      $this->params = $params;
+
+      return $this;
+   }
+
+   /**
+    * Получить id пользователя, создавшего примечание
+    * @return int
+    */
+   public function getCreatedBy()
+   {
+      return $this->created_by;
+   }
+
+   /**
+    * Задать id пользователя, создавшего примечание
+    * @param int $created_by
+    * @return  self
+    */
+   public function setCreatedBy($created_by)
+   {
+      if (!is_numeric($created_by)) {
+         throw new AmoCRMException('Передаваемая переменная не является числом');
+      }
+      $this->created_by = $created_by;
+
+      return $this;
+   }
+
+   /**
+    * Получить уникальный идентификатор аккаунта
+    * @return int
+    */
+   public function getAccountId()
+   {
+      return $this->account_id;
+   }
+
+   /**
+    * Получить id группы, в которой состоит пользователь, имеющий отношение к событию
+    * @return int
+    */
+   public function getGroupId()
+   {
+      return $this->group_id;
+   }
+
+   /**
+    * Можно ли изменять данное событие
+    * @return bool
+    */
+   public function getIsEditable()
+   {
+      return $this->is_editable;
+   }
 }
