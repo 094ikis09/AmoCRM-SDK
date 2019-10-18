@@ -4,6 +4,9 @@ namespace AmoCRM\Models;
 
 use AmoCRM\Contracts\AmoCRMInterface;
 
+/**
+ * Базавая модель
+ */
 abstract class BaseModel
 {
 
