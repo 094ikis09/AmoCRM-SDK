@@ -36,6 +36,9 @@ class TaskEntity extends BaseEntity
    public function __construct($entity = null)
    {
       if (is_array($entity)) {
+         if (!is_numeric($entity['id'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
          $this->id = $entity['id'];
          $this->responsible_user_id = $entity['responsible_user_id'];
          $this->created_by = $entity['created_by'];
@@ -51,7 +54,6 @@ class TaskEntity extends BaseEntity
          $this->text = $entity['text'];
       }
    }
-
 
    /**
     * Получить уникальный идентификатор привязываемого элемента
