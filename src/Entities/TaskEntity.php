@@ -5,44 +5,98 @@ namespace AmoCRM\Entities;
 use AmoCRM\Constats\ElementType;
 use AmoCRM\Exceptions\AmoCRMException;
 
+/**
+ * Сущность задачи
+ */
 class TaskEntity extends BaseEntity
 {
 
-   protected $element_id;
-   protected $element_type;
-   protected $complete_till;
-   protected $task_type;
-   protected $text;
-   protected $created_at;
-   protected $updated_at;
-   protected $responsible_user_id;
-   protected $is_completed;
-   protected $created_by;
+   protected
+      $element_id,
+      $element_type,
+      $complete_till,
+      $task_type,
+      $text,
+      $created_at,
+      $updated_at,
+      $responsible_user_id,
+      $is_completed,
+      $created_by;
 
-   private $complete_till_at;
-   private $account_id;
-   private $group_id;
-
+   private
+      $complete_till_at,
+      $account_id,
+      $group_id;
 
    public function __construct($entity = null)
    {
       if (is_array($entity)) {
+         if (!is_numeric($entity['id'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
          $this->id = $entity['id'];
-         $this->responsible_user_id    = $entity['responsible_user_id'];
-         $this->created_by             = $entity['created_by'];
-         $this->created_at             = $entity['created_at'];
-         $this->updated_at             = $entity['updated_at'];
-         $this->account_id             = $entity['account_id'];
-         $this->group_id               = $entity['group_id'];
-         $this->element_type           = $entity['element_type'];
-         $this->element_id             = $entity['element_id'];
-         $this->is_completed           = $entity['is_completed'];
-         $this->task_type              = $entity['task_type'];
-         $this->complete_till_at       = $entity['complete_till_at'];
+
+         if (!is_numeric($entity['responsible_user_id'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
+         $this->responsible_user_id = $entity['responsible_user_id'];
+
+         if (!is_numeric($entity['created_by'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
+         $this->created_by = $entity['created_by'];
+
+         if (!is_numeric($entity['created_at'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
+         $this->created_at = $entity['created_at'];
+
+         if (!is_numeric($entity['updated_at'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
+         $this->updated_at = $entity['updated_at'];
+
+         if (!is_numeric($entity['account_id'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
+         $this->account_id = $entity['account_id'];
+
+         if (!is_numeric($entity['group_id'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
+         $this->group_id = $entity['group_id'];
+
+         if (!is_numeric($entity['element_type'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
+         $this->element_type = $entity['element_type'];
+
+         if (!is_numeric($entity['element_id'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
+         $this->element_id = $entity['element_id'];
+
+         if (!is_bool($entity['is_completed'])) {
+            throw new AmoCRMException('Передаваемая переменная не является булевой');
+         }
+         $this->is_completed = $entity['is_completed'];
+
+         if (!is_numeric($entity['task_type'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
+         $this->task_type = $entity['task_type'];
+
+         if (!is_numeric($entity['complete_till_at'])) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+         }
+         $this->complete_till_at = $entity['complete_till_at'];
+
+         if (!is_string($entity['text'])) {
+            throw new AmoCRMException('Передаваемая переменная не является строкой');
+         }
          $this->text                   = $entity['text'];
       }
    }
-
 
    /**
     * Получить уникальный идентификатор привязываемого элемента
@@ -160,7 +214,6 @@ class TaskEntity extends BaseEntity
       return $this;
    }
 
-
    /**
     * Получить текст задачи
     * @return string
@@ -180,7 +233,6 @@ class TaskEntity extends BaseEntity
       if (!is_string($text)) {
          throw new AmoCRMException('Передаваемая переменная не является строкой');
       }
-
       $this->text = $text;
 
       return $this;
@@ -206,8 +258,6 @@ class TaskEntity extends BaseEntity
       if ($date === false) {
          throw new AmoCRMException('Задан не верный формат даты');
       }
-
-
       $this->created_at = $date;
 
       return $this;
@@ -233,7 +283,6 @@ class TaskEntity extends BaseEntity
       if ($date === false) {
          throw new AmoCRMException('Задан не верный формат даты');
       }
-
       $this->updated_at = $date;
 
       return $this;
@@ -258,7 +307,6 @@ class TaskEntity extends BaseEntity
       if (!is_numeric($responsible_user_id)) {
          throw new AmoCRMException('Передаваемая переменная не является числом');
       }
-
       $this->responsible_user_id = $responsible_user_id;
 
       return $this;
@@ -307,7 +355,6 @@ class TaskEntity extends BaseEntity
       if (!is_numeric($created_by)) {
          throw new AmoCRMException('Передаваемая переменная не является числом');
       }
-
       $this->created_by = $created_by;
 
       return $this;
@@ -342,19 +389,16 @@ class TaskEntity extends BaseEntity
 
    protected function checkFields($type)
    {
+      parent::checkFields($type);
       switch ($type) {
          case 'update':
-            if ($this->id == null) {
-               throw new AmoCRMException('Данная задача еще не создана');
-            }
             if ($this->updated_at == null) {
-               throw new AmoCRMException('Дата последнего изменения данной задачи не указан');
+               throw new AmoCRMException('Дата последнего изменения данной задачи не указана');
             }
             if ($this->text == null) {
                throw new AmoCRMException('Текст задачи не указан');
             }
             break;
       }
-      return true;
    }
 }
