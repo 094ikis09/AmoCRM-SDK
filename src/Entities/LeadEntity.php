@@ -527,7 +527,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить главный контакт
-    * @return int|null
+    * @return array|null
     */
    public function getMainContact()
    {
