@@ -21,29 +21,10 @@ class PipelineEntity extends BaseEntity
     public function __construct($entity = null)
     {
         if (is_array($entity)) {
-            if (!is_numeric($entity['id'])) {
-                throw new AmoCRMException('Передаваемая переменная не является числом');
-            }
             $this->id = $entity['id'];
-
-            if (!is_string($entity['name'])) {
-                throw new AmoCRMException('Передаваемая переменная не является строкой');
-            }
             $this->name = $entity['name'];
-
-            if (!is_numeric($entity['sort'])) {
-                throw new AmoCRMException('Передаваемая переменная не является числом');
-            }
             $this->sort = $entity['sort'];
-
-            if (!is_bool($entity['is_main'])) {
-                throw new AmoCRMException('Передаваемая переменная не является булевой');
-            }
             $this->is_main = $entity['is_main'];
-
-            if (!is_array($entity['statuses'])) {
-                throw new AmoCRMException('Передаваемая переменная не является массивом');
-            }
             foreach ($entity['statuses'] as $key => $value) {
                 $this->statuses[$key] = new StatusEntity($value, $this->id);
             }

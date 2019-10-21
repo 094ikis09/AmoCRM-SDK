@@ -23,75 +23,28 @@ class NoteEntity extends BaseEntity
    private
       $account_id,
       $group_id,
-      $is_editable;
+      $is_editable,
+      $attachment;
 
    public function __construct($entity = null)
    {
       if (is_array($entity)) {
-         if (!is_numeric($entity['id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->id = $entity['id'];
-
-         if (!is_numeric($entity['element_id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
-         $this->element_id = $entity['element_id'];
-
-         if (!is_numeric($entity['element_type'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
-         $this->element_type = $entity['element_type'];
-
-         if (!is_string($entity['text'])) {
-            throw new AmoCRMException('Передаваемая переменная не является строкой');
-         }
-         $this->text = $entity['text'];
-
-         if (!is_numeric($entity['note_type'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
-         $this->note_type = $entity['note_type'];
-
-         if (!is_numeric($entity['created_at'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
-         $this->created_at = $entity['created_at'];
-
-         if (!is_numeric($entity['updated_at'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
-         $this->updated_at = $entity['updated_at'];
-
-         if (!is_numeric($entity['$responsible_user_id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->responsible_user_id = $entity['responsible_user_id'];
-
-         if (!is_array($entity['params'])) {
-            throw new AmoCRMException('Передаваемая переменная не является массивом');
-         }
-         $this->params = $entity['params'];
-
-         if (!is_numeric($entity['created_by'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->created_by = $entity['created_by'];
-
-         if (!is_numeric($entity['account_id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
+         $this->created_at = $entity['created_at'];
+         $this->updated_at = $entity['updated_at'];
          $this->account_id = $entity['account_id'];
-
-         if (!is_numeric($entity['group_id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->group_id = $entity['group_id'];
-
-         if (!is_bool($entity['is_editable'])) {
-            throw new AmoCRMException('Передаваемая переменная не является булевой');
-         }
          $this->is_editable = $entity['is_editable'];
+         $this->element_id = $entity['element_id'];
+         $this->element_type = $entity['element_type'];
+         $this->attachment = $entity['attachment'];
+         $this->note_type = $entity['note_type'];
+         $this->text = $entity['text'];
+         if (isset($entity['params'])) {
+            $this->params = $entity['params'];
+         }
       }
    }
 
