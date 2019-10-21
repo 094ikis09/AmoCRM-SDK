@@ -25,30 +25,10 @@ class StatusEntity extends BaseEntity
       $this->pipeline_id = $pipeline_id;
 
       if (is_array($entity)) {
-
-         if (!is_numeric($entity['id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->id = $entity['id'];
-
-         if (!is_string($entity['name'])) {
-            throw new AmoCRMException('Передаваемая переменная не является строкой');
-         }
          $this->name = $entity['name'];
-
-         if (!is_string($entity['color'])) {
-            throw new AmoCRMException('Передаваемая переменная не является строкой');
-         }
          $this->color = $entity['color'];
-
-         if (!is_numeric($entity['sort'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->sort = $entity['sort'];
-
-         if (!is_bool($entity['is_editable'])) {
-            throw new AmoCRMException('Передаваемая переменная не является булевой');
-         }
          $this->is_editable = $entity['is_editable'];
       } else {
          if ($sort !== null) {
