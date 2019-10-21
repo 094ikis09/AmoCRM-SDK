@@ -31,70 +31,19 @@ class TaskEntity extends BaseEntity
    public function __construct($entity = null)
    {
       if (is_array($entity)) {
-         if (!is_numeric($entity['id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->id = $entity['id'];
-
-         if (!is_numeric($entity['responsible_user_id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->responsible_user_id = $entity['responsible_user_id'];
-
-         if (!is_numeric($entity['created_by'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->created_by = $entity['created_by'];
-
-         if (!is_numeric($entity['created_at'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->created_at = $entity['created_at'];
-
-         if (!is_numeric($entity['updated_at'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->updated_at = $entity['updated_at'];
-
-         if (!is_numeric($entity['account_id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->account_id = $entity['account_id'];
-
-         if (!is_numeric($entity['group_id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->group_id = $entity['group_id'];
-
-         if (!is_numeric($entity['element_type'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->element_type = $entity['element_type'];
-
-         if (!is_numeric($entity['element_id'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->element_id = $entity['element_id'];
-
-         if (!is_bool($entity['is_completed'])) {
-            throw new AmoCRMException('Передаваемая переменная не является булевой');
-         }
          $this->is_completed = $entity['is_completed'];
-
-         if (!is_numeric($entity['task_type'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->task_type = $entity['task_type'];
-
-         if (!is_numeric($entity['complete_till_at'])) {
-            throw new AmoCRMException('Передаваемая переменная не является числом');
-         }
          $this->complete_till_at = $entity['complete_till_at'];
-
-         if (!is_string($entity['text'])) {
-            throw new AmoCRMException('Передаваемая переменная не является строкой');
-         }
-         $this->text                   = $entity['text'];
+         $this->text = $entity['text'];
       }
    }
 
@@ -385,20 +334,5 @@ class TaskEntity extends BaseEntity
    public function getGroupId()
    {
       return $this->group_id;
-   }
-
-   protected function checkFields($type)
-   {
-      parent::checkFields($type);
-      switch ($type) {
-         case 'update':
-            if ($this->updated_at == null) {
-               throw new AmoCRMException('Дата последнего изменения данной задачи не указана');
-            }
-            if ($this->text == null) {
-               throw new AmoCRMException('Текст задачи не указан');
-            }
-            break;
-      }
    }
 }
