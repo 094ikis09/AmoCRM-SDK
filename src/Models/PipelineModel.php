@@ -8,6 +8,32 @@ use AmoCRM\Models\BaseModel;
 
 class PipelineModel extends BaseModel
 {
+
+    /**
+     * Создание задач (по одной или пакетно)
+     *
+     * @param PipelineEntity|PipelineEntity[] $pipelines
+     * @return array ответ от AmoCRM
+     */
+    public function createPipelines($pipelines)
+    {
+        $temp['request']['pipelines']['add'] = array();
+        if (is_array($pipelines)) {
+            foreach ($pipelines as $item) {
+                if (!($item instanceof PipelineEntity)) {
+                    throw new AmoCRMException('Передаваемая переменная не является PipelineEntity');
+                }
+                $temp['request']['pipelines']['add'][] = $item->generateQuery();
+            }
+        } else {
+            if (!($pipelines instanceof PipelineEntity)) {
+                throw new AmoCRMException('Передаваемая переменная не является PipelineEntity');
+            }
+            $temp['request']['pipelines']['add'][] = $pipelines->generateQuery();
+        }
+        return $this->client->call('/private/api/v2/json/pipelines/set', array(), $temp);
+    }
+
     /**
      * @return PipelineEntity[]
      */
@@ -91,25 +117,6 @@ class PipelineModel extends BaseModel
             $temp[] = $pipelines->getId();
         }
         return $this->client->call('/private/api/v2/json/pipelines/delete', array(), array('request' => array('id' => $temp)));
-    }
-
-    public function addPipelines($pipelines)
-    {
-        $aPipelines['request']['pipelines']['add'] = array();
-        if (is_array($pipelines)) {
-            foreach ($pipelines as $value) {
-                if (!($value instanceof PipelineEntity)) {
-                    throw new AmoCRMException('Передан не верный параметр');
-                }
-                $aPipelines['request']['pipelines']['add'][] = $value->generateQuery();
-            }
-        } else {
-            if (!($pipelines instanceof PipelineEntity)) {
-                throw new AmoCRMException('Передан не верный параметр');
-            }
-            $aPipelines['request']['pipelines']['add'][] = $pipelines->generateQuery();
-        }
-        return $this->client->call('/private/api/v2/json/pipelines/set', array(), $aPipelines);
     }
 
     public function updatePipelines($pipelines)
