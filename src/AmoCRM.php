@@ -233,6 +233,10 @@ class AmoCRM implements AmoCRMInterface
 
     public function call(
         $methodName,
+        $reqestType,
+        $jsonEncode = true,
+        $ajax = false,
+        $cookie = false,
         array $getParameters = array(),
         array $postParameters = array(),
         $modified = null,
