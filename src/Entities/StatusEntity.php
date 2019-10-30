@@ -39,7 +39,7 @@ class StatusEntity extends BaseEntity
 
    /**
     * Получить уникальный индетификатор родительской воронки
-    * @return int
+    * @return int|null
     */
    public function getPipelineId()
    {
@@ -48,7 +48,7 @@ class StatusEntity extends BaseEntity
 
    /**
     * Получить название этапа
-    * @return string
+    * @return string|null
     */
    public function getName()
    {
@@ -73,7 +73,7 @@ class StatusEntity extends BaseEntity
 
    /**
     * Получить цвет этапа
-    * @return string
+    * @return string|null
     */
    public function getColor()
    {
@@ -98,7 +98,7 @@ class StatusEntity extends BaseEntity
 
    /**
     * Получить порядковый номер этапа
-    * @return int
+    * @return int|null
     */
    public function getSort()
    {
@@ -123,7 +123,7 @@ class StatusEntity extends BaseEntity
 
    /**
     * Возвращает можно ли редактировать этап
-    * @return bool
+    * @return bool|null
     */
    public function getIsEditable()
    {

@@ -98,7 +98,7 @@ class PipelineEntity extends BaseEntity
 
     /**
      * Получить наименование воронки
-     * @return string
+     * @return string|null
      */
     public function getName()
     {
@@ -123,7 +123,7 @@ class PipelineEntity extends BaseEntity
 
     /**
      * Получить порядковый номер воронки
-     * @return int
+     * @return int|null
      */
     public function getSort()
     {
@@ -148,7 +148,7 @@ class PipelineEntity extends BaseEntity
 
     /**
      * Возвращает можно ли изменить воронку
-     * @return bool
+     * @return bool|null
      */
     public function getIsEditable()
     {

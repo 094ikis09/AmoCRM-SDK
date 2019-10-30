@@ -50,7 +50,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить id элемента, в карточке которого создано событие
-    * @return int
+    * @return int|null
     */
    public function getElementId()
    {
@@ -74,7 +74,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить тип сущности элемента, в карточке которого создано событие
-    * @return int
+    * @return int|null
     */
    public function getElementType()
    {
@@ -98,7 +98,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить текст события
-    * @return string
+    * @return string|null
     */
    public function getText()
    {
@@ -122,7 +122,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить тип события
-    * @return int
+    * @return int|null
     */
    public function getNoteType()
    {
@@ -146,7 +146,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить дату и время создания события (UNIX)
-    * @return int
+    * @return int|null
     */
    public function getCreatedAt()
    {
@@ -171,7 +171,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить дату и время изменения события (UNIX)
-    * @return int
+    * @return int|null
     */
    public function getUpdatedAt()
    {
@@ -196,7 +196,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить id пользователя ответственного за событие.
-    * @return int
+    * @return int|null
     */
    public function getResponsibleUserId()
    {
@@ -220,7 +220,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить массив, содержащий параметры
-    * @return array
+    * @return array|null
     */
    public function getParams()
    {
@@ -244,7 +244,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить id пользователя, создавшего примечание
-    * @return int
+    * @return int|null
     */
    public function getCreatedBy()
    {
@@ -268,7 +268,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить уникальный идентификатор аккаунта
-    * @return int
+    * @return int|null
     */
    public function getAccountId()
    {
@@ -277,7 +277,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Получить id группы, в которой состоит пользователь, имеющий отношение к событию
-    * @return int
+    * @return int|null
     */
    public function getGroupId()
    {
@@ -286,7 +286,7 @@ class NoteEntity extends BaseEntity
 
    /**
     * Можно ли изменять данное событие
-    * @return bool
+    * @return bool|null
     */
    public function getIsEditable()
    {

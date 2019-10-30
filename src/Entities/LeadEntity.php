@@ -3,7 +3,11 @@
 namespace AmoCRM\Entities;
 
 use AmoCRM\Contracts\AmoCRMInterface;
+use AmoCRM\Exceptions\AmoCRMException;
 
+/**
+ * Сущность сдлеки
+ */
 class LeadEntity extends BaseEntity
 {
 
@@ -60,12 +64,13 @@ class LeadEntity extends BaseEntity
          $this->loss_reason_id = $entity['loss_reason_id'];
          $this->contacts = $entity['contacts'];
          $this->pipeline = $entity['pipeline'];
+         $this->responsible_user_id = $entity['responsible_user_id'];
       }
    }
 
    /**
     * Получить название сделки
-    * @return string
+    * @return string|null
     */
    public function getName()
    {
@@ -90,7 +95,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить дату и время создания сделки
-    * @return int
+    * @return int|null
     */
    public function getCreatedAt()
    {
@@ -115,8 +120,8 @@ class LeadEntity extends BaseEntity
    }
 
    /**
-    * Получить дату и время последн
-    * @return int
+    * Получить дату и время последнего изменения
+    * @return int|null
     */
    public function getUpdatedAt()
    {
@@ -124,7 +129,7 @@ class LeadEntity extends BaseEntity
    }
 
    /**
-    * Задать дату и время последн
+    * Задать дату и время последнего изменения
     * @param string $updated_at
     * @return  self
     */
@@ -142,7 +147,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить id этапа на котором находится сделка
-    * @return int
+    * @return int|null
     */
    public function getStatusId()
    {
@@ -167,7 +172,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить id воронки в которой находится сделка
-    * @return int
+    * @return int|null
     */
    public function getPipelineId()
    {
@@ -175,7 +180,7 @@ class LeadEntity extends BaseEntity
    }
 
    /**
-    * Получить воронку в которой находится сделка
+    * Задать воронку в которой находится сделка
     * @param int $pipeline_id
     * @return  self
     */
@@ -192,7 +197,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить id ответственного за сделку
-    * @return int
+    * @return int|null
     */
    public function getResponsibleUserId()
    {
@@ -213,7 +218,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить бюджет сделки
-    * @return int
+    * @return int|null
     */
    public function getSale()
    {
@@ -238,7 +243,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить тэги сделки
-    * @return string[]
+    * @return string[]|null
     */
    public function getTags()
    {
@@ -261,15 +266,6 @@ class LeadEntity extends BaseEntity
    }
 
    /**
-    * Получить список id контактов прикрепленных к сделке
-    * @return int
-    */
-   public function getContactsId()
-   {
-      return $this->contacts_id;
-   }
-
-   /**
     * Задать список id контактов прикрепленных к сделке
     * @param int[] $contacts_id
     * @return  self
@@ -279,15 +275,6 @@ class LeadEntity extends BaseEntity
       $this->contacts_id = $contacts_id;
 
       return $this;
-   }
-
-   /**
-    * Получить id прикрепленной компании
-    * @return int
-    */
-   public function getCompanyId()
-   {
-      return $this->company_id;
    }
 
    /**
@@ -307,7 +294,7 @@ class LeadEntity extends BaseEntity
    }
 
    /**
-    * Добавление кастомного поля
+    * Установка значения кастомного поля
     *
     * @param int $id
     * @param mixed $value
@@ -353,7 +340,7 @@ class LeadEntity extends BaseEntity
    }
 
    /**
-    * Добавление кастомного поля типа мультиселект
+    * Установка значения кастомного поля типа мультиселект
     *
     * @param int $id
     * @param int|array $values
@@ -372,9 +359,7 @@ class LeadEntity extends BaseEntity
       if (!is_array($this->custom_fields[$id])) {
          $this->custom_fields[$id] = array();
       }
-      debug($this->custom_fields[$id]);
       $this->custom_fields[$id] = array_merge($this->custom_fields[$id], $field);
-      debug($this->custom_fields[$id]);
       return $this;
    }
 
@@ -428,6 +413,10 @@ class LeadEntity extends BaseEntity
    {
       $client->call(
          '/ajax/v1/links/set/',
+         'POST',
+         true,
+         true,
+         false,
          array(),
          array(
             'request' => array(
@@ -444,8 +433,7 @@ class LeadEntity extends BaseEntity
                   )
                )
             )
-         ),
-         null
+         )
       );
       return $this;
    }
@@ -454,7 +442,7 @@ class LeadEntity extends BaseEntity
     * Получить товары в сделке
     *
     * @param AmoCRMInterface $client
-    * @return array
+    * @return array|null
     */
    public function getListCatalogElements($client, $catalog_id)
    {
@@ -520,7 +508,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить id пользователя создавшего сделку
-    * @return int
+    * @return int|null
     */
    public function getCreatedBy()
    {
@@ -529,7 +517,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить id аккаунта
-    * @return int
+    * @return int|null
     */
    public function getAccountId()
    {
@@ -538,7 +526,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Удалена ли сделка?
-    * @return bool
+    * @return bool|null
     */
    public function getIsDeleted()
    {
@@ -547,7 +535,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить главный контакт
-    * @return int
+    * @return int|null
     */
    public function getMainContact()
    {
@@ -556,7 +544,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить id группы
-    * @return int
+    * @return int|null
     */
    public function getGroupId()
    {
@@ -565,7 +553,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить компанию
-    * @return int
+    * @return int|null
     */
    public function getCompany()
    {
@@ -574,7 +562,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить дату закрытия
-    * @return int
+    * @return int|null
     */
    public function getClosedAt()
    {
@@ -583,7 +571,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить время ближайщей задачи
-    * @return int
+    * @return int|null
     */
    public function getClosestTaskAt()
    {
@@ -592,7 +580,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить массив контактов
-    * @return array
+    * @return array|null
     */
    public function getContacts()
    {
@@ -601,6 +589,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить воронку
+    * @return int|null
     */
    public function getPipeline()
    {
@@ -609,6 +598,7 @@ class LeadEntity extends BaseEntity
 
    /**
     * Получить id причины отказа
+    * @return int|null
     */
    public function getLossReasonId()
    {

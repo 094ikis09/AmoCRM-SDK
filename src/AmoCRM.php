@@ -239,28 +239,19 @@ class AmoCRM implements AmoCRMInterface
         $cookie = false,
         array $getParameters = array(),
         array $postParameters = array(),
-        $modified = null,
-        $ajax = false,
-        $auth = false
+        $modified = null
     ) {
         if (!is_string($methodName)) {
             throw new AmoCRMException('$methodName должна быть строкой');
-        } elseif (trim($methodName) == false) {
-            throw new AmoCRMException('Укажите метод');
         }
 
-        $this->lastExecuteMethod = rtrim(strtolower(trim($methodName)), '/');
+        $this->lastExecuteMethod = rtrim(strtolower(trim($methodName)), '/'); //TODO: Check THIS
 
-        if ($ajax) {
-            $headers = array(
-                'X-Requested-With: XMLHttpRequest'
-            );
-        } else {
-            $headers = array(
-                'Connection: keep-alive',
-                'Content-Type: application/json',
-            );
-        }
+        $headers = array(
+            'X-Requested-With: XMLHttpRequest',
+            'Connection: keep-alive',
+            'Content-Type: application/json'
+        );
 
         if (isset($modified)) {
             if (is_string($modified)) {
@@ -287,12 +278,12 @@ class AmoCRM implements AmoCRMInterface
             null,
             '&'
         );
-        if ($auth) {
+        if ($cookie) {
             $this->authAmo();
         }
         $query = sprintf('https://%s.amocrm.ru%s?%s', $this->getSubDomain(), $this->lastExecuteMethod, $query);
-        $result = $this->executeRequest($query, $headers, $postParameters, $ajax, $auth);
 
+        $result = $this->executeRequest($query, $reqestType, $headers, $postParameters, $jsonEncode, $cookie);
         if (isset($result['response']['error'])) {
             $errorResult['code'] = $result['response']['error_code'];
             $errorResult['message'] = $result['response']['error'];
@@ -400,7 +391,7 @@ class AmoCRM implements AmoCRMInterface
      * @return array - Ответ от AmoCRM
      * @throws AmoCRMException
      */
-    protected function executeRequest($url, array $headers, array $postParameters = array(), $ajax, $auth)
+    protected function executeRequest($url, $reqestType, array $headers, array $postParameters = array(), $jsonEncode, $auth)
     {
         $retryableErrorCodes = array(
             CURLE_COULDNT_RESOLVE_HOST,
@@ -420,19 +411,23 @@ class AmoCRM implements AmoCRMInterface
             CURLOPT_SSL_VERIFYPEER => (int) $this->sslVerify,
             CURLOPT_URL => $url,
             CURLOPT_HTTPHEADER => $headers,
-            CURLOPT_ENCODING => '',
+            CURLOPT_ENCODING => ''
         );
+
         if ($auth) {
             $curlOptions[CURLOPT_COOKIEFILE] = dirname(__FILE__) . '/Cookies/cookie.txt';
             $curlOptions[CURLOPT_COOKIEJAR] = dirname(__FILE__) . '/Cookies/cookie.txt';
         }
+
         if (count($postParameters) > 0) {
             $curlOptions[CURLOPT_POST] = true;
-            if (!$ajax) {
+            if ($jsonEncode) {
                 $curlOptions[CURLOPT_POSTFIELDS] = json_encode($postParameters);
             } else {
                 $curlOptions[CURLOPT_POSTFIELDS] = $postParameters;
             }
+        } else {
+            $curlOptions[CURLOPT_CUSTOMREQUEST] = $reqestType;
         }
 
         if (is_array($this->customCurlOptions)) {

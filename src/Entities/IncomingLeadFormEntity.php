@@ -5,9 +5,9 @@ namespace AmoCRM\Entities;
 use AmoCRM\Exceptions\AmoCRMException;
 
 /**
- * Сущность неразобранного с типом входящий звонок
+ * Сущность неразобранного с типом веб-форма
  */
-class IncomingLeadSipEntity extends BaseEntity
+class IncomingLeadFormEntity extends BaseEntity
 {
 
    protected
@@ -16,13 +16,13 @@ class IncomingLeadSipEntity extends BaseEntity
       $created_at,
       $pipeline_id,
       $incoming_lead_info = array(
-         'to' => null,
-         'from' => null,
-         'date_call' => null,
+         'form_id' => null,
+         'form_page' => null,
+         'ip' => null,
          'service_code' => null,
-         'duration' => null,
-         'link' => null,
-         'add_note' => null,
+         'form_name' => null,
+         'form_send_at' => null,
+         'referer' => null,
       ),
       $incoming_entities = array(
          'leads' => array(),
@@ -149,81 +149,79 @@ class IncomingLeadSipEntity extends BaseEntity
    }
 
    /**
-    * Получить ID пользователя, который принял звонок
+    * Получить Идентификатор формы
     *
     * @return int|null
     */
-   public function getIncomingLeadInfoTo()
+   public function getIncomingLeadInfoFormId()
    {
-      return $this->incoming_lead_info['to'];
+      return $this->incoming_lead_info['from_id'];
    }
 
    /**
-    * Задать ID пользователя, который принял звонок
+    * Задать Идентификатор формы
     *
-    * @param int $to
+    * @param int $from_id
     * @return self
     */
-   public function setIncomingLeadInfoTo($to)
+   public function setIncomingLeadInfoFormId($from_id)
    {
-      if (!is_numeric($to)) {
+      if (!is_numeric($from_id)) {
          throw new AmoCRMException('Передаваемая переменная не является числом');
       }
-      $this->incoming_lead_info['to'] = $to;
+      $this->incoming_lead_info['from_id'] = $from_id;
       return $this;
    }
 
    /**
-    * Получить Внешний номер телефона, с которого поступил звонок
+    * Получить Адрес страницы, на котором расположена форма
     *
     * @return string|null
     */
-   public function getIncomingLeadInfoFrom()
+   public function getIncomingLeadInfoFormPage()
    {
-      return $this->incoming_lead_info['from'];
+      return $this->incoming_lead_info['form_page'];
    }
 
    /**
-    * Задать Внешний номер телефона, с которого поступил звонок
+    * Задать Адрес страницы, на котором расположена форма
     *
-    * @param string $from
+    * @param string $form_page
     * @return self
     */
-   public function setIncomingLeadInfoFrom($from)
+   public function setIncomingLeadInfoFormPage($form_page)
    {
-      if (!is_string($from)) {
+      if (!is_string($form_page)) {
          throw new AmoCRMException('Передаваемая переменная не является строкой');
       }
 
-      $this->incoming_lead_info['from'] = $from;
+      $this->incoming_lead_info['form_page'] = $form_page;
       return $this;
    }
 
    /**
-    * Получить Дату и время звонка
+    * Получить IP адрес, с которого поступила заявка
     *
-    * @return int|null
+    * @return string|null
     */
-   public function getIncomingLeadInfoDateCall()
+   public function getIncomingLeadInfoIp()
    {
-      return $this->incoming_lead_info['date_call'];
+      return $this->incoming_lead_info['ip'];
    }
 
    /**
-    * Задать Дату и время звонка
+    * Задать IP адрес, с которого поступила заявка
     *
-    * @param string $date_call
+    * @param string $ip
     * @return self
     */
-   public function setIncomingLeadInfoDateCall($date_call)
+   public function setIncomingLeadInfoIp($ip)
    {
-      $date_call = strtotime($date_call);
-      if ($date_call === false) {
-         throw new AmoCRMException('Задан не верный формат даты');
+      if (!is_string($ip)) {
+         throw new AmoCRMException('Передаваемая переменная не является строкой');
       }
 
-
-      $this->incoming_lead_info['date_call'] = $date_call;
+      $this->incoming_lead_info['ip'] = $ip;
       return $this;
    }
 
@@ -254,80 +252,81 @@ class IncomingLeadSipEntity extends BaseEntity
    }
 
    /**
-    * Получить Продолжительность звонка
-    *
-    * @return int|null
-    */
-   public function getIncomingLeadInfoDuration()
-   {
-      return $this->incoming_lead_info['duration'];
-   }
-
-   /**
-    * Задать Продолжительность звонка
-    *
-    * @param int $duration
-    * @return self
-    */
-   public function setIncomingLeadInfoDuration($duration)
-   {
-      if (!is_numeric($duration)) {
-         throw new AmoCRMException('Передаваемая переменная не является числом');
-      }
-
-
-      $this->incoming_lead_info['duration'] = $duration;
-      return $this;
-   }
-
-   /**
-    * Получить Ссылку на запись звонка
+    * Получить Название формы
     *
     * @return string|null
     */
-   public function getIncomingLeadInfoLink()
+   public function getIncomingLeadInfoFormName()
    {
-      return $this->incoming_lead_info['link'];
+      return $this->incoming_lead_info['form_name'];
    }
 
    /**
-    * Задать Ссылку на запись звонка
+    * Задать Название формы
     *
-    * @param string $link
+    * @param string $form_name
     * @return self
     */
-   public function setIncomingLeadInfoLink($link)
+   public function setIncomingLeadInfoFormName($form_name)
    {
-      if (!is_string($link)) {
+      if (!is_string($form_name)) {
          throw new AmoCRMException('Передаваемая переменная не является строкой');
       }
-      $this->incoming_lead_info['link'] = $link;
+
+      $this->incoming_lead_info['form_name'] = $form_name;
       return $this;
    }
 
    /**
-    * Получить Флаг, если передан этот параметр, то после принятия неразобранного к сделке будет добавлено событие о совершённом звонке.
+    * Получить Дата и время отправки данных через форму
     *
-    * @return bool|null
+    * @return int|null
     */
-   public function getIncomingLeadInfoAddNote()
+   public function getIncomingLeadInfoLink()
    {
-      return $this->incoming_lead_info['add_note'];
+      return $this->incoming_lead_info['form_send_at'];
    }
 
    /**
-    * Задать Флаг, если передан этот параметр, то после принятия неразобранного к сделке будет добавлено событие о совершённом звонке.
+    * Задать Дата и время отправки данных через форму
     *
-    * @param bool $add_note
+    * @param string $form_send_at
     * @return self
     */
-   public function setIncomingLeadInfoAddNote($add_note)
+   public function setIncomingLeadInfoLink($form_send_at)
    {
-      if (!is_bool($add_note)) {
-         throw new AmoCRMException('Передаваемая переменная не является булевой');
+      $form_send_at = strtotime($form_send_at);
+      if ($form_send_at === false) {
+         throw new AmoCRMException('Задан не верный формат даты');
       }
 
-      $this->incoming_lead_info['add_note'] = $add_note;
+      $this->incoming_lead_info['form_send_at'] = $form_send_at;
+      return $this;
+   }
+
+   /**
+    * Получить информацию откуда был переход на страницу, где расположена форма.
+    *
+    * @return string|null
+    */
+   public function getIncomingLeadInfoReferer()
+   {
+      return $this->incoming_lead_info['referer'];
+   }
+
+   /**
+    * Задать информацию откуда был переход на страницу, где расположена форма.
+    *
+    * @param string $referer
+    * @return self
+    */
+   public function setIncomingLeadInfoReferer($referer)
+   {
+      if (!is_string($referer)) {
+         throw new AmoCRMException('Передаваемая переменная не является строкой');
+      }
+
+      $this->incoming_lead_info['referer'] = $referer;
       return $this;
    }
 

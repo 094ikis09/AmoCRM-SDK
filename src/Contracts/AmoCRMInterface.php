@@ -82,11 +82,13 @@ interface AmoCRMInterface
      */
     public function call(
         $methodName,
+        $reqestType,
+        $jsonEncode = true,
+        $ajax = false,
+        $cookie = false,
         array $getParameters = array(),
         array $postParameters = array(),
-        $modified = null,
-        $ajax = false,
-        $auth = false
+        $modified = null
     );
 
     /**

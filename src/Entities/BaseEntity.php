@@ -3,8 +3,6 @@
 
 namespace AmoCRM\Entities;
 
-use AmoCRM\Exceptions\AmoCRMException;
-
 abstract class BaseEntity
 {
 
@@ -13,20 +11,17 @@ abstract class BaseEntity
     /**
      * Получить структуру элемента для запроса
      *
-     * @return void
+     * @return array
      */
-    public function generateQuery($type = null)
+    public function generateQuery()
     {
-        if ($type != null) {
-            $this->checkFields($type);
-        }
         $temp = array();
         $class_vars = get_object_vars($this);
         foreach ($class_vars as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $key => $val) {
                     if ($val instanceof BaseEntity) {
-                        $temp[$name][$key] = $val->generateQuery($type);
+                        $temp[$name][$key] = $val->generateQuery();
                     } else {
                         $temp[$name][$key] = $val;
                     }
@@ -38,25 +33,13 @@ abstract class BaseEntity
         return $temp;
     }
 
+    /**
+     * Получить id элемента
+     *
+     * @return int|null
+     */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Проверка заполнености полей
-     *
-     * @param string $type
-     * @return void
-     */
-    protected function checkFields($type)
-    {
-        switch ($type) {
-            case 'update':
-                if ($this->id == null) {
-                    throw new AmoCRMException('Передаваемая переменная не может быть null');
-                }
-                break;
-        }
     }
 }

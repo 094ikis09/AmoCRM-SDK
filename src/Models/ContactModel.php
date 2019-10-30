@@ -13,10 +13,24 @@ class ContactModel extends BaseModel
     * @param [type] $query
     * @return ContactEntity[]
     */
-   public function getContacts($query = null)
+   public function getContacts($limit_rows = 500, $limit_offset = 0, $query = null)
    {
-      $contacts = $this->client->call('/api/v2/contacts', array('query' => $query));
+      $contacts = $this->client->call(
+         '/api/v2/contacts',
+         'GET',
+         true,
+         false,
+         false,
+         array(
+            'limit_rows' => $limit_rows,
+            'limit_offset' => $limit_offset,
+            'query' => $query
+         )
+      );
       $temp = array();
+      if (!isset($contacts['_embedded']['items'])) {
+         return $temp;
+      }
       foreach ($contacts['_embedded']['items'] as $item) {
          $temp[] = new ContactEntity($item);
       }

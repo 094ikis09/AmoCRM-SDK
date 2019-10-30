@@ -22,6 +22,10 @@ class LeadModel extends BaseModel
    {
       $leads = $this->client->call(
          '/api/v2/leads',
+         'GET',
+         true,
+         false,
+         false,
          array(
             'limit_rows' => $limitRows,
             'limit_offset' => $limitOffset,
@@ -76,12 +80,7 @@ class LeadModel extends BaseModel
 
    public function getLeadById($id)
    {
-      $lead = $this->client->call(
-         '/api/v2/leads',
-         array(
-            'id' => $id,
-         )
-      );
+      $lead = $this->client->call('/api/v2/leads', 'GET', true, false, false, array('id' => $id));
       return new LeadEntity($lead['_embedded']['items'][0]);
    }
 
@@ -102,6 +101,6 @@ class LeadModel extends BaseModel
       $temp['request']['multiactions']['add'][0]['data']['data']['ACTION'] = 'DELETE';
       $temp['request']['multiactions']['add'][0]['entity_type'] = 2;
       $temp['request']['multiactions']['add'][0]['multiaction_type'] = 4;
-      return $this->client->call('/ajax/v1/multiactions/set', array(), $temp, null, false);
+      return $this->client->call('/ajax/v1/multiactions/set', 'POST', true, false, array(), $temp);
    }
 }

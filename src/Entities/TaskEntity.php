@@ -49,7 +49,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить уникальный идентификатор привязываемого элемента
-    * @return int
+    * @return int|null
     */
    public function getElementId()
    {
@@ -74,7 +74,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить тип привязываемого элемента
-    * @return int
+    * @return int|null
     */
    public function getElementType()
    {
@@ -112,7 +112,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить дату, до которой необходимо завершить задачу (Unix)
-    * @return int
+    * @return int|null
     */
    public function getCompleteTill()
    {
@@ -138,7 +138,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить тип задачи
-    * @return int
+    * @return int|null
     */
    public function getTaskType()
    {
@@ -165,7 +165,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить текст задачи
-    * @return string
+    * @return string|null
     */
    public function getText()
    {
@@ -189,7 +189,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить дату создания данной задачи (Unix)
-    * @return int
+    * @return int|null
     */
    public function getCreatedAt()
    {
@@ -214,7 +214,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить дату последнего изменения данной задачи (Unix)
-    * @return int
+    * @return int|null
     */
    public function getUpdatedAt()
    {
@@ -239,7 +239,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить уникальный идентификатор ответственного пользователя
-    * @return int
+    * @return int|null
     */
    public function getResponsibleUserId()
    {
@@ -263,7 +263,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить завершена задача или нет
-    * @return bool
+    * @return bool|null
     */
    public function getIsCompleted()
    {
@@ -287,7 +287,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить уникальный идентификатор создателя задачи
-    * @return int
+    * @return int|null
     */
    public function getCreatedBy()
    {
@@ -311,7 +311,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить дату до которой необходимо завершить задачу (UNIX / Только для созданных задач)
-    * @return int
+    * @return int|null
     */
    public function getCompleteTillAt()
    {
@@ -320,7 +320,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить уникальный идентификатор аккаунта
-    * @return int
+    * @return int|null
     */
    public function getAccountId()
    {
@@ -329,7 +329,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить id группы в которой состоит пользователь имеющей отношение к задаче
-    * @return int
+    * @return int|null
     */
    public function getGroupId()
    {

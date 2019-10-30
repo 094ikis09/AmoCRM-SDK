@@ -34,7 +34,15 @@ class TaskModel extends BaseModel
          }
          $temp['add'][] = $tasks->generateQuery();
       }
-      return $this->client->call('/api/v2/tasks', array(), $temp);
+      return $this->client->call(
+         '/api/v2/tasks',
+         'GET',
+         true,
+         false,
+         false,
+         array(),
+         $temp
+      );
    }
 
    /**
@@ -59,7 +67,14 @@ class TaskModel extends BaseModel
          }
          $temp['update'][] = $tasks->generateQuery('update');
       }
-      return $this->client->call('/api/v2/tasks', array(), $temp);
+      return $this->client->call(
+         '/api/v2/tasks',
+         'POST',
+         true,
+         false,
+         array(),
+         $temp
+      );
    }
 
    /**
@@ -92,7 +107,15 @@ class TaskModel extends BaseModel
          }
          $temp['request']['multiactions']['add'][0]['ids'][] = $tasks->getId();
       }
-      return $this->client->call('/ajax/v1/multiactions/set/', array(), $temp);
+      return $this->client->call(
+         '/ajax/v1/multiactions/set/',
+         'POST',
+         true,
+         true,
+         false,
+         array(),
+         $temp
+      );
    }
 
    /**
@@ -234,7 +257,14 @@ class TaskModel extends BaseModel
       }
 
       $temp = array();
-      $tasks = $this->client->call('/api/v2/tasks', $get);
+      $tasks = $this->client->call(
+         '/api/v2/tasks',
+         'GET',
+         true,
+         false,
+         false,
+         $get
+      );
       foreach ($tasks['_embedded']['items'] as $item) {
          $temp[] = new TaskEntity($item);
       }
@@ -465,7 +495,12 @@ class TaskModel extends BaseModel
     */
    public function getTaskTypes()
    {
-      $types = $this->client->call('/ajax/tasks/types', array(), array(), null, true);
+      $types = $this->client->call(
+         '/ajax/tasks/types',
+         'GET',
+         true,
+         true
+      );
       $temp = array();
       foreach ($types as $item) {
          $temp[] = array('id' => $item['id'], 'name' => $item['option']);
@@ -481,7 +516,12 @@ class TaskModel extends BaseModel
     */
    public function getTaskTypeByName($name)
    {
-      $types = $this->client->call('/ajax/tasks/types', array(), array(), null, true);
+      $types = $this->client->call(
+         '/ajax/tasks/types',
+         'GET',
+         true,
+         true
+      );
       $temp = array();
       foreach ($types as $item) {
          if ($name == $item['option'])
