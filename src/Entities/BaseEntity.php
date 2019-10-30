@@ -15,16 +15,13 @@ abstract class BaseEntity
      */
     public function generateQuery()
     {
-        if ($type != null) {
-            $this->checkFields($type);
-        }
         $temp = array();
         $class_vars = get_object_vars($this);
         foreach ($class_vars as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $key => $val) {
                     if ($val instanceof BaseEntity) {
-                        $temp[$name][$key] = $val->generateQuery($type);
+                        $temp[$name][$key] = $val->generateQuery();
                     } else {
                         $temp[$name][$key] = $val;
                     }
@@ -47,19 +44,12 @@ abstract class BaseEntity
     }
 
     /**
-     * Проверка заполнености полей
+     * Получить id элемента
      *
-     * @param string $type
-     * @return void
+     * @return int|null
      */
-    protected function checkFields($type)
+    public function getId()
     {
-        switch ($type) {
-            case 'update':
-                if ($this->id == null) {
-                    throw new AmoCRMException('Передаваемая переменная не может быть null');
-                }
-                break;
-        }
+        return $this->id;
     }
 }

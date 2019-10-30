@@ -482,10 +482,94 @@ class ContactEntity extends BaseEntity
     }
 
     /**
-     * Get the value of responsible_user_id
+     * Открепить контакты
+     *
+     * @param int $contacts_id
+     * @return self
      */
-    public function getResponsible_user_id()
+    public function unlinkCompany($company_id)
     {
-        return $this->responsible_user_id;
+        if (!is_numeric($company_id)) {
+            throw new AmoCRMException('Передаваемая переменная не является числом');
+        }
+
+        $this->unlink['company_id'] = $company_id;
+        return $this;
+    }
+
+    /**
+     * Открепить сделки
+     *
+     * @param array $leads
+     * @return self
+     */
+    public function unlinkLeads(array $leads_id)
+    {
+        $this->unlink['leads_id'] = $leads_id;
+        return $this;
+    }
+
+    /**
+     * Получить id аккаунта
+     * @return int|null
+     */
+    public function getAccountId()
+    {
+        return $this->account_id;
+    }
+
+    /**
+     * Получить id пользователя обновившего контакт
+     * @return int|null
+     */
+    public function getUpdatedBy()
+    {
+        return $this->updated_by;
+    }
+
+    /**
+     * Получить id группы
+     * @return int|null
+     */
+    public function getGroupId()
+    {
+        return $this->group_id;
+    }
+
+    /**
+     * Получить компанию
+     * @return int|null
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * Получить Массив, содержащий информацию о сделках, которые прикреплены к данному контакту
+     * @return array|null
+     */
+    public function getLeads()
+    {
+        return $this->leads;
+    }
+
+    /**
+     * Получить время ближайщей задачи
+     * @return int|null
+     */
+    public function getClosestTaskAt()
+    {
+        return $this->closest_task_at;
+    }
+
+    /**
+     * Получить Массив, содержащий информацию о покупателях, которые прикреплены к данному контакту
+     *
+     * @return array|null
+     */
+    public function getCustomers()
+    {
+        return $this->customers;
     }
 }

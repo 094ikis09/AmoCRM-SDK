@@ -387,13 +387,54 @@ class IncomingLeadSipEntity extends BaseEntity
    }
 
    /**
-    * Undocumented function
+    * Задать контакты
     *
-    * @param LeadEntity $lead
-    * @return void
+    * @param ContactEntity|ContactEntity[] $contacts
+    * @return self
     */
-   public function setLead($lead)
+   public function setIncomingEntitiesContacts($contacts)
    {
-      $this->incoming_entities['leads'][0] = $lead->generateQuery();
+      $this->incoming_entities['contacts'] = array();
+      if (!is_array($contacts)) {
+         if (!($contacts instanceof ContactEntity)) {
+            throw new AmoCRMException('Передаваемая переменная не является ContactEntity');
+         }
+         $this->incoming_entities['contacts'][] = $contacts->generateQuery();
+      } else {
+         foreach (!$contacts as $item) {
+            if (!($item instanceof ContactEntity)) {
+               throw new AmoCRMException('Передаваемая переменная не является ContactEntity');
+            }
+            $this->incoming_entities['contacts'][] = $item->generateQuery();
+         }
+      }
+
+      return $this;
+   }
+
+   /**
+    * Задать компании
+    *
+    * @param CompanyEntity|CompanyEntity[] $companies
+    * @return self
+    */
+   public function setIncomingEntitiesCompanies($companies)
+   {
+      $this->incoming_entities['companies'] = array();
+      if (!is_array($companies)) {
+         if (!($companies instanceof CompanyEntity)) {
+            throw new AmoCRMException('Передаваемая переменная не является CompanyEntity');
+         }
+         $this->incoming_entities['companies'][] = $companies->generateQuery();
+      } else {
+         foreach (!$companies as $item) {
+            if (!($item instanceof CompanyEntity)) {
+               throw new AmoCRMException('Передаваемая переменная не является CompanyEntity');
+            }
+            $this->incoming_entities['companies'][] = $item->generateQuery();
+         }
+      }
+
+      return $this;
    }
 }

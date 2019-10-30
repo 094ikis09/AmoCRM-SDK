@@ -54,7 +54,7 @@ class TaskEntity extends BaseEntity
 
    /**
     * Получить уникальный идентификатор привязываемого элемента
-    * @return int
+    * @return int|null
     */
    public function getElementId()
    {
