@@ -408,7 +408,6 @@ class IncomingLeadSipEntity extends BaseEntity
             $this->incoming_entities['contacts'][] = $item->generateQuery();
          }
       }
-
       return $this;
    }
 
@@ -434,7 +433,6 @@ class IncomingLeadSipEntity extends BaseEntity
             $this->incoming_entities['companies'][] = $item->generateQuery();
          }
       }
-
       return $this;
    }
 }
