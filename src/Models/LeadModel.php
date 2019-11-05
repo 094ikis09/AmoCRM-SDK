@@ -75,7 +75,7 @@ class LeadModel extends BaseModel
       } else {
          $temp['update'][] = $leads->generateQuery();
       }
-      return $this->client->call('/api/v2/leads', array(), $temp);
+      return $this->client->call('/api/v2/leads', 'GET', true, false, false, array(), $temp);
    }
 
    public function getLeadById($id)

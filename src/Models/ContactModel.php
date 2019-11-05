@@ -65,7 +65,7 @@ class ContactModel extends BaseModel
       } else {
          $temp['update'][] = $contacts->generateQuery();
       }
-      return $this->client->call('/api/v2/contacts', array(), $temp);
+      return $this->client->call('/api/v2/contacts', 'GET', true, false, false, array(), $temp);
    }
 
    public function createContact($contacts)

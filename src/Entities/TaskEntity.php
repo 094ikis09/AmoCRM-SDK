@@ -2,7 +2,7 @@
 
 namespace AmoCRM\Entities;
 
-use AmoCRM\Constats\ElementType;
+use AmoCRM\Constants\ElementType;
 use AmoCRM\Exceptions\AmoCRMException;
 
 /**
