@@ -111,15 +111,6 @@ class TaskEntity extends BaseEntity
    }
 
    /**
-    * Получить дату, до которой необходимо завершить задачу (Unix)
-    * @return int|null
-    */
-   public function getCompleteTill()
-   {
-      return $this->complete_till;
-   }
-
-   /**
     * Получить дату, до которой необходимо завершить задачу
     *
     * @param string $complete_till Дата, до которой необходимо завершить задачу - '10.06.1997' или '+10 minutes'

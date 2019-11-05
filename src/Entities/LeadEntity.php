@@ -170,14 +170,6 @@ class LeadEntity extends BaseEntity
       return $this;
    }
 
-   /**
-    * Получить id воронки в которой находится сделка
-    * @return int|null
-    */
-   public function getPipelineId()
-   {
-      return $this->pipeline_id;
-   }
 
    /**
     * Задать воронку в которой находится сделка

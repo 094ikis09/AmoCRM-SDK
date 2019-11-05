@@ -66,19 +66,8 @@ class IncomingLeadSipEntity extends BaseEntity
       if (!is_string($source_name)) {
          throw new AmoCRMException('Передаваемая переменная не является строкой');
       }
-
       $this->source_name = $source_name;
-
       return $this;
-   }
-
-   /**
-    * Получить uid источника заявки
-    * @return string|null
-    */
-   public function getSourceUid()
-   {
-      return $this->source_uid;
    }
 
    /**
@@ -91,9 +80,7 @@ class IncomingLeadSipEntity extends BaseEntity
       if (!is_string($source_uid)) {
          throw new AmoCRMException('Передаваемая переменная не является строкой');
       }
-
       $this->source_uid = $source_uid;
-
       return $this;
    }
 
@@ -117,9 +104,7 @@ class IncomingLeadSipEntity extends BaseEntity
       if ($created_at === false) {
          throw new AmoCRMException('Задан не верный формат даты');
       }
-
       $this->created_at = $created_at;
-
       return $this;
    }
 
@@ -142,9 +127,7 @@ class IncomingLeadSipEntity extends BaseEntity
       if (!is_numeric($pipeline_id)) {
          throw new AmoCRMException('Передаваемая переменная не является числом');
       }
-
       $this->pipeline_id = $pipeline_id;
-
       return $this;
    }
 
@@ -221,11 +204,12 @@ class IncomingLeadSipEntity extends BaseEntity
       if ($date_call === false) {
          throw new AmoCRMException('Задан не верный формат даты');
       }
-
-
       $this->incoming_lead_info['date_call'] = $date_call;
       return $this;
    }
+
+
+
 
    /**
     * Получить Код виджета или сервиса, через который был совершён звонок.
@@ -248,7 +232,6 @@ class IncomingLeadSipEntity extends BaseEntity
       if (!is_string($service_code)) {
          throw new AmoCRMException('Передаваемая переменная не является строкой');
       }
-
       $this->incoming_lead_info['service_code'] = $service_code;
       return $this;
    }
@@ -274,8 +257,6 @@ class IncomingLeadSipEntity extends BaseEntity
       if (!is_numeric($duration)) {
          throw new AmoCRMException('Передаваемая переменная не является числом');
       }
-
-
       $this->incoming_lead_info['duration'] = $duration;
       return $this;
    }
@@ -326,7 +307,6 @@ class IncomingLeadSipEntity extends BaseEntity
       if (!is_bool($add_note)) {
          throw new AmoCRMException('Передаваемая переменная не является булевой');
       }
-
       $this->incoming_lead_info['add_note'] = $add_note;
       return $this;
    }
@@ -353,7 +333,6 @@ class IncomingLeadSipEntity extends BaseEntity
             $this->incoming_entities['leads'][] = $item->generateQuery();
          }
       }
-
       return $this;
    }
 
@@ -379,7 +358,6 @@ class IncomingLeadSipEntity extends BaseEntity
             $this->incoming_entities['contacts'][] = $item->generateQuery();
          }
       }
-
       return $this;
    }
 
@@ -405,7 +383,6 @@ class IncomingLeadSipEntity extends BaseEntity
             $this->incoming_entities['companies'][] = $item->generateQuery();
          }
       }
-
       return $this;
    }
 }
