@@ -34,6 +34,10 @@ class NoteModel extends BaseModel
    {
       $temp = $this->client->call(
          '/api/v2/notes',
+         'GET',
+         true,
+         false,
+         false,
          array(
             'type' => $type,
             'element_id' => $element_id
