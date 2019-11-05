@@ -1,6 +1,6 @@
 <?php
 
-namespace AmoCRM\Constats;
+namespace AmoCRM\Constants;
 
 class TaskType
 {

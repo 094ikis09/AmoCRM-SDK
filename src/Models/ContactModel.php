@@ -39,7 +39,14 @@ class ContactModel extends BaseModel
 
    public function getContactById($id)
    {
-      $contacts = $this->client->call('/api/v2/contacts', array('id' => $id));
+      $contacts = $this->client->call(
+         '/api/v2/contacts',
+         'GET',
+         true,
+         false,
+         false,
+         array('id' => $id)
+      );
       if (!isset($contacts['_embedded']['items'])) return false;
       return new ContactEntity($contacts['_embedded']['items'][0]);
    }
