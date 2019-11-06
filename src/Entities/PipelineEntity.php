@@ -16,7 +16,7 @@ class PipelineEntity extends BaseEntity
         $name,
         $sort,
         $statuses = array(),
-        $is_editable;
+        $is_main;
 
     public function __construct($entity = null)
     {
