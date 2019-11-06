@@ -40,15 +40,6 @@ class StatusEntity extends BaseEntity
    }
 
    /**
-    * Получить уникальный индетификатор родительской воронки
-    * @return int|null
-    */
-   public function getPipelineId()
-   {
-      return $this->pipeline_id;
-   }
-
-   /**
     * Получить название этапа
     * @return string|null
     */
