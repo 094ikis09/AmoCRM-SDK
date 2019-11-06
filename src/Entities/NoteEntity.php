@@ -42,9 +42,7 @@ class NoteEntity extends BaseEntity
          $this->attachment = $entity['attachment'];
          $this->note_type = $entity['note_type'];
          $this->text = $entity['text'];
-         if (isset($entity['params'])) {
-            $this->params = $entity['params'];
-         }
+         $this->params = $entity['params'];
       }
    }
 
