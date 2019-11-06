@@ -484,7 +484,7 @@ class LeadEntity extends BaseEntity
     * @param array $contacts_id
     * @return self
     */
-   public function unlinkContacts(array $contacts_id)
+   public function setUnlinkContacts(array $contacts_id)
    {
       $this->unlink['contacts_id'] = $contacts_id;
       return $this;
@@ -496,7 +496,7 @@ class LeadEntity extends BaseEntity
     * @param int $contacts_id
     * @return self
     */
-   public function unlinkCompany($company_id)
+   public function setUnlinkCompany($company_id)
    {
       if (!is_numeric($company_id)) {
          throw new AmoCRMException('Передаваемая переменная не является числом');
