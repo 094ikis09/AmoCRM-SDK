@@ -109,15 +109,6 @@ class IncomingLeadSipEntity extends BaseEntity
    }
 
    /**
-    * Получить id воронки
-    * @return int|null
-    */
-   public function getPipelineId()
-   {
-      return $this->pipeline_id;
-   }
-
-   /**
     * Задать id воронки
     * @param int $pipeline_id
     * @return  self
@@ -206,19 +197,6 @@ class IncomingLeadSipEntity extends BaseEntity
       }
       $this->incoming_lead_info['date_call'] = $date_call;
       return $this;
-   }
-
-
-
-
-   /**
-    * Получить Код виджета или сервиса, через который был совершён звонок.
-    *
-    * @return string|null
-    */
-   public function getIncomingLeadInfoServiceCode()
-   {
-      return $this->incoming_lead_info['service_code'];
    }
 
    /**
