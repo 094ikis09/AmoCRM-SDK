@@ -14,7 +14,9 @@ class StatusEntity extends BaseEntity
       $pipeline_id,
       $name,
       $color,
-      $sort = 0,
+      $sort = 0;
+
+   private
       $is_editable;
 
    public function __construct($entity = null, $pipeline_id, $sort = null)
@@ -128,21 +130,5 @@ class StatusEntity extends BaseEntity
    public function getIsEditable()
    {
       return $this->is_editable;
-   }
-
-   /**
-    * Задает можно ли редактировать этап
-    * @param bool $is_editable
-    * @return  self
-    */
-   public function setIsEditable($is_editable)
-   {
-      if (!is_bool($is_editable)) {
-         throw new AmoCRMException('Передаваемая переменная не является булевой');
-      }
-
-      $this->is_editable = $is_editable;
-
-      return $this;
    }
 }
