@@ -147,22 +147,30 @@ class PipelineEntity extends BaseEntity
     }
 
     /**
-     * Возвращает можно ли изменить воронку
+     * Получить Является ли воронка “главной”
      * @return bool|null
      */
-    public function getIsEditable()
+    public function getIsMain()
     {
-        return $this->is_editable;
+        return $this->is_main;
     }
 
     /**
-     * Задает можно ли изменить воронку
-     * @param bool $is_editable
+     * Задать Является ли воронка “главной”
+     * @param bool $is_main
      * @return  self
      */
-    public function setIsEditable($is_editable)
+    public function setIsMain($is_main)
     {
-        $this->is_editable = $is_editable;
+        if (!is_bool($is_main)) {
+            throw new AmoCRMException('Передаваемая переменная не является булевой');
+        }
+        if ($is_main) {
+            $this->is_main = 'on';
+        } else {
+            $this->is_main = null;
+        }
+
 
         return $this;
     }
