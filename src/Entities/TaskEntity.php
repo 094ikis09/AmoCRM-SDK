@@ -26,7 +26,9 @@ class TaskEntity extends BaseEntity
    private
       $complete_till_at,
       $account_id,
-      $group_id;
+      $group_id,
+      $result,
+      $duration;
 
    public function __construct($entity = null)
    {
@@ -325,5 +327,22 @@ class TaskEntity extends BaseEntity
    public function getGroupId()
    {
       return $this->group_id;
+   }
+
+   /**
+    * Получить Массив, содержащий информацию о результате
+    * @return array|null
+    */
+   public function getResult()
+   {
+      return $this->result;
+   }
+
+   /**
+    * Раз Амо это возвращает пусть будет
+    */
+   public function getDuration()
+   {
+      return $this->duration;
    }
 }
