@@ -455,6 +455,10 @@ class LeadEntity extends BaseEntity
 
       $temp = $client->call(
          '/ajax/v1/links/list/',
+         'GET',
+         true,
+         true,
+         false,
          array(
             'links' => array(
                array(
@@ -465,10 +469,7 @@ class LeadEntity extends BaseEntity
                   'to_catalog_id' => $catalog_id
                )
             )
-         ),
-         array(),
-         null,
-         true
+         )
       );
       $list = array();
       foreach ($temp['response']['links'] as $item) {
