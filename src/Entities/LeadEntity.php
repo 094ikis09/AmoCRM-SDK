@@ -56,7 +56,7 @@ class LeadEntity extends BaseEntity
             $this->company = $entity['company'];
             $this->closed_at = $entity['closed_at'];
             $this->closest_task_at = $entity['closest_task_at'];
-            $this->tags = explode(', ', trim($entity['tags']));
+            $this->tags = $entity['tags'];
             foreach ($entity['custom_fields'] as $item) {
                 $this->custom_fields[$item['id']] = $item;
             }
