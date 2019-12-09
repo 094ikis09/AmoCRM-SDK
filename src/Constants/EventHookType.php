@@ -3,8 +3,11 @@
 
 namespace AmoCRM\Constants;
 
-
-class EventType
+/**
+ * Типы событий уведомлений
+ * @package AmoCRM\Constants
+ */
+class EventHookType
 {
     /**
      * Добавлена сделка
