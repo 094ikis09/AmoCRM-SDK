@@ -3,10 +3,10 @@
 
 namespace AmoCRM\Entities;
 
-abstract class BaseEntity
+abstract class AbstractEntity
 {
 
-    protected  $id;
+    protected $id;
 
     /**
      * Получить структуру элемента для запроса
@@ -20,7 +20,7 @@ abstract class BaseEntity
         foreach ($class_vars as $name => $value) {
             if (is_array($value)) {
                 foreach ($value as $key => $val) {
-                    if ($val instanceof BaseEntity) {
+                    if ($val instanceof AbstractEntity) {
                         $temp[$name][$key] = $val->generateQuery();
                     } else {
                         $temp[$name][$key] = $val;
