@@ -7,7 +7,7 @@ use AmoCRM\Exceptions\AmoCRMException;
 /**
  * Сущность контакта
  */
-class ContactEntity extends BaseEntity
+class ContactEntity extends AbstractEntity
 {
     protected
         $name,
@@ -32,6 +32,10 @@ class ContactEntity extends BaseEntity
         $closest_task_at,
         $customers;
 
+    /**
+     * ContactEntity constructor.
+     * @param null $entity
+     */
     public function __construct($entity = null)
     {
         if (is_array($entity)) {
@@ -68,6 +72,7 @@ class ContactEntity extends BaseEntity
      * Задать имя контакта
      * @param string $name
      * @return  self
+     * @throws AmoCRMException
      */
     public function setName($name)
     {
@@ -93,6 +98,7 @@ class ContactEntity extends BaseEntity
      * Задать дату и время создания контакта
      * @param string $created_at
      * @return  self
+     * @throws AmoCRMException
      */
     public function setCreatedAt($created_at)
     {
@@ -119,6 +125,7 @@ class ContactEntity extends BaseEntity
      * Задать дату и время последнего изменения
      * @param string $updated_at
      * @return  self
+     * @throws AmoCRMException
      */
     public function setUpdatedAt($updated_at)
     {
@@ -184,6 +191,7 @@ class ContactEntity extends BaseEntity
      * Задать Название новой компании.
      * @param string $company_name
      * @return  self
+     * @throws AmoCRMException
      */
     public function setCompanyName($company_name)
     {
@@ -209,6 +217,7 @@ class ContactEntity extends BaseEntity
      * Задать тэги контакта
      * @param string[] $tags
      * @return  self
+     * @throws AmoCRMException
      */
     public function setTags($tags)
     {
@@ -233,6 +242,7 @@ class ContactEntity extends BaseEntity
      * Задать Массив сделок, привязываемых к контакту.
      * @param int[] $leads_id
      * @return  self
+     * @throws AmoCRMException
      */
     public function setLeadsId($leads_id)
     {
@@ -257,6 +267,7 @@ class ContactEntity extends BaseEntity
      * Задать Покупателей
      * @param string $customers_id
      * @return self
+     * @throws AmoCRMException
      */
     public function setCustomersId($customers_id)
     {
@@ -282,6 +293,7 @@ class ContactEntity extends BaseEntity
      * Задать компанию
      * @param string $company_id
      * @return  self
+     * @throws AmoCRMException
      */
     public function setCompanyId($company_id)
     {
@@ -392,8 +404,9 @@ class ContactEntity extends BaseEntity
     /**
      * Открепить контакты
      *
-     * @param int $contacts_id
+     * @param int $company_id
      * @return self
+     * @throws AmoCRMException
      */
     public function unlinkCompany($company_id)
     {
@@ -408,7 +421,7 @@ class ContactEntity extends BaseEntity
     /**
      * Открепить сделки
      *
-     * @param array $leads
+     * @param array $leads_id
      * @return self
      */
     public function unlinkLeads(array $leads_id)

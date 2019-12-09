@@ -5,10 +5,14 @@ namespace AmoCRM\Models;
 use AmoCRM\Entities\LeadEntity;
 use AmoCRM\Exceptions\AmoCRMException;
 
-class LeadModel extends BaseModel
+/**
+ * Модель для работы со сдлеками
+ * @package AmoCRM\Models
+ */
+class LeadModel extends AbstractModel
 {
     /**
-     * Undocumented function
+     * Получить сделки
      *
      * @param integer $limitRows
      * @param integer $limitOffset
@@ -44,6 +48,13 @@ class LeadModel extends BaseModel
         return $temp;
     }
 
+    /**
+     * Создать сделки
+     *
+     * @param LeadEntity[]|LeadEntity $leads
+     * @return array
+     * @throws AmoCRMException
+     */
     public function createLeads($leads)
     {
         $temp['add'] = array();
@@ -58,9 +69,16 @@ class LeadModel extends BaseModel
         } else {
             $temp['add'][] = $leads->generateQuery();
         }
-        return $this->client->call('/api/v2/leads', array(), $temp);
+        return $this->client->call('/api/v2/leads', 'POST', true, false, false, array(), $temp);
     }
 
+    /**
+     * Обновить сделки
+     *
+     * @param LeadEntity[]|LeadEntity $leads
+     * @return array
+     * @throws AmoCRMException
+     */
     public function updateLeads($leads)
     {
         $temp['update'] = array();
@@ -75,15 +93,31 @@ class LeadModel extends BaseModel
         } else {
             $temp['update'][] = $leads->generateQuery();
         }
-        return $this->client->call('/api/v2/leads', 'GET', true, false, false, array(), $temp);
+        return $this->client->call('/api/v2/leads', 'POST', true, false, false, array(), $temp);
     }
 
+    /**
+     * Получить сделку по id
+     *
+     * @param $id
+     * @return LeadEntity|null
+     */
     public function getLeadById($id)
     {
         $lead = $this->client->call('/api/v2/leads', 'GET', true, false, false, array('id' => $id));
+        if (!isset($lead['_embedded']['items'][0])) {
+            return null;
+        }
         return new LeadEntity($lead['_embedded']['items'][0]);
     }
 
+    /**
+     * Удалить сделку
+     *
+     * @param LeadEntity[]|LeadEntity $leads
+     * @return array
+     * @throws AmoCRMException
+     */
     public function removeLeads($leads)
     {
         $temp['request']['multiactions']['add'][0] = array();

@@ -15,6 +15,7 @@ use AmoCRM\Exceptions\AmoCRMLeadsException;
 use AmoCRM\Exceptions\AmoCRMNotesException;
 use AmoCRM\Exceptions\AmoCRMTasksException;
 use DateTime;
+use Exception;
 
 /**
  * Class AmoCRM
@@ -164,21 +165,35 @@ class AmoCRM implements AmoCRMInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getSubDomain()
     {
         return $this->subDomain;
     }
 
+    /**
+     * @return string
+     */
     public function getLogin()
     {
         return $this->login;
     }
 
+    /**
+     * @return string
+     */
     public function getKeyAPI()
     {
         return $this->keyAPI;
     }
 
+    /**
+     * @param int $retriesCnt
+     * @return $this|AmoCRMInterface
+     * @throws AmoCRMException
+     */
     public function setRetriesToConnectCount($retriesCnt = 1)
     {
         if (!is_numeric($retriesCnt)) {
@@ -186,10 +201,15 @@ class AmoCRM implements AmoCRMInterface
         } elseif ($retriesCnt < 1) {
             throw new AmoCRMException('Количество попыток не может быть меньше 1');
         }
-        $this->retriesToConnectCount = (int) $retriesCnt;
+        $this->retriesToConnectCount = (int)$retriesCnt;
         return $this;
     }
 
+    /**
+     * @param int $microseconds
+     * @return $this|AmoCRMInterface
+     * @throws AmoCRMException
+     */
     public function setRetriesToConnectTimeout($microseconds = 1000000)
     {
         if (!is_numeric($microseconds)) {
@@ -197,26 +217,41 @@ class AmoCRM implements AmoCRMInterface
         } elseif ($microseconds < 1) {
             throw new AmoCRMException('Задержка между попытками не может быть меньше 1');
         }
-        $this->retriesToConnectTimeout = (int) $microseconds;
+        $this->retriesToConnectTimeout = (int)$microseconds;
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getRetriesToConnectCount()
     {
         return $this->retriesToConnectCount;
     }
 
+    /**
+     * @return int
+     */
     public function getRetriesToConnectTimeout()
     {
         return $this->retriesToConnectTimeout;
     }
 
+    /**
+     * @param array $options
+     * @return $this|AmoCRMInterface
+     */
     public function setCustomCurlOptions(array $options)
     {
         $this->customCurlOptions = $options;
         return $this;
     }
 
+    /**
+     * @param bool $isEnable
+     * @return $this|AmoCRMInterface
+     * @throws AmoCRMException
+     */
     public function setSslVerify($isEnable)
     {
         if (!is_bool($isEnable)) {
@@ -226,21 +261,47 @@ class AmoCRM implements AmoCRMInterface
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getSslVerify()
     {
         return $this->sslVerify;
     }
 
+    /**
+     * @param string $methodName
+     * @param string $requestType
+     * @param bool $jsonEncode
+     * @param bool $ajax
+     * @param bool $cookie
+     * @param array $getParameters
+     * @param array $postParameters
+     * @param null $modified
+     * @return array
+     * @throws AmoCRMAPIException
+     * @throws AmoCRMAuthException
+     * @throws AmoCRMCatalogElementsException
+     * @throws AmoCRMCatalogsException
+     * @throws AmoCRMContactsException
+     * @throws AmoCRMCustomersException
+     * @throws AmoCRMException
+     * @throws AmoCRMLeadsException
+     * @throws AmoCRMNotesException
+     * @throws AmoCRMTasksException
+     * @throws Exception
+     */
     public function call(
         $methodName,
-        $reqestType,
+        $requestType,
         $jsonEncode = true,
         $ajax = false,
         $cookie = false,
         array $getParameters = array(),
         array $postParameters = array(),
         $modified = null
-    ) {
+    )
+    {
         if (!is_string($methodName)) {
             throw new AmoCRMException('$methodName должна быть строкой');
         }
@@ -283,7 +344,7 @@ class AmoCRM implements AmoCRMInterface
         }
         $query = sprintf('https://%s.amocrm.ru%s?%s', $this->getSubDomain(), $this->lastExecuteMethod, $query);
 
-        $result = $this->executeRequest($query, $reqestType, $headers, $postParameters, $jsonEncode, $cookie);
+        $result = $this->executeRequest($query, $requestType, $headers, $jsonEncode, $cookie, $postParameters);
         if (isset($result['response']['error'])) {
             $errorResult['code'] = $result['response']['error_code'];
             $errorResult['message'] = $result['response']['error'];
@@ -292,14 +353,12 @@ class AmoCRM implements AmoCRMInterface
             }
         }
 
-        if (isset($result['_embedded']['errors'])) {
-            if (isset($result['_embedded']['errors']['update'])) {
-                $errorResult['code'] = $result['_embedded']['errors']['update'][0]['code'];
-                $errorResult['message'] = $result['_embedded']['errors']['update'][0]['message'];;
-            } else {
-                $errorResult['code'] = preg_replace('/^Код ошибки ([0-9]{1,}).*/', '$1', $result['_embedded']['errors'][0][0]);
-                $errorResult['message'] = $result['_embedded']['errors'][0][0];
-            }
+        if (isset($result['_embedded']['errors'])) if (isset($result['_embedded']['errors']['update'])) {
+            $errorResult['code'] = $result['_embedded']['errors']['update'][0]['code'];
+            $errorResult['message'] = $result['_embedded']['errors']['update'][0]['message'];
+        } else {
+            $errorResult['code'] = preg_replace('/^Код ошибки ([0-9]+).*/', '$1', $result['_embedded']['errors'][0][0]);
+            $errorResult['message'] = $result['_embedded']['errors'][0][0];
         }
 
         if (isset($result['title']) && $result['title'] == 'Error') {
@@ -356,6 +415,9 @@ class AmoCRM implements AmoCRMInterface
         }
     }
 
+    /**
+     *
+     */
     protected function authAmo()
     {
         $user = array(
@@ -386,12 +448,16 @@ class AmoCRM implements AmoCRMInterface
      * Выполняет запрос
      *
      * @param string $url - URL
+     * @param $requestType
      * @param array $headers - Заголовки
+     * @param $jsonEncode
+     * @param $auth
      * @param array $postParameters - Пост данные
      * @return array - Ответ от AmoCRM
      * @throws AmoCRMException
+     * @throws AmoCRMIoException
      */
-    protected function executeRequest($url, $reqestType, array $headers, array $postParameters = array(), $jsonEncode, $auth)
+    protected function executeRequest($url, $requestType, array $headers, $jsonEncode, $auth, array $postParameters = array())
     {
         $retryableErrorCodes = array(
             CURLE_COULDNT_RESOLVE_HOST,
@@ -407,8 +473,8 @@ class AmoCRM implements AmoCRMInterface
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_CONNECTTIMEOUT => 65,
             CURLOPT_TIMEOUT => 70,
-            CURLOPT_SSL_VERIFYHOST => (int) $this->sslVerify,
-            CURLOPT_SSL_VERIFYPEER => (int) $this->sslVerify,
+            CURLOPT_SSL_VERIFYHOST => (int)$this->sslVerify,
+            CURLOPT_SSL_VERIFYPEER => (int)$this->sslVerify,
             CURLOPT_URL => $url,
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_ENCODING => ''
@@ -427,7 +493,7 @@ class AmoCRM implements AmoCRMInterface
                 $curlOptions[CURLOPT_POSTFIELDS] = $postParameters;
             }
         } else {
-            $curlOptions[CURLOPT_CUSTOMREQUEST] = $reqestType;
+            $curlOptions[CURLOPT_CUSTOMREQUEST] = $requestType;
         }
 
         if (is_array($this->customCurlOptions)) {
@@ -442,7 +508,7 @@ class AmoCRM implements AmoCRMInterface
         $curlResult = false;
         $retriesCnt = $this->retriesToConnectCount;
         while ($retriesCnt--) {
-            usleep((int) max(0, self::CALL_DELAY - ((microtime(true) - $this->lastExecuteTime) * 1000000)));
+            usleep((int)max(0, self::CALL_DELAY - ((microtime(true) - $this->lastExecuteTime) * 1000000)));
             $this->lastExecuteTime = microtime(true);
             $curlResult = curl_exec($curl);
             if (false === $curlResult) {

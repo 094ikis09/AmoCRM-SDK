@@ -2,5 +2,12 @@
 
 namespace AmoCRM\Exceptions;
 
-class AmoCRMException extends \Exception
-{ }
+use Exception;
+
+/**
+ * Class AmoCRMException
+ * @package AmoCRM\Exceptions
+ */
+class AmoCRMException extends Exception
+{
+}

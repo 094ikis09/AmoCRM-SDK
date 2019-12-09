@@ -3,9 +3,22 @@
 namespace AmoCRM\Models;
 
 use AmoCRM\Entities\NoteEntity;
+use AmoCRM\Exceptions\AmoCRMException;
 
-class NoteModel extends BaseModel
+/**
+ * Модель для работы с примечаниями
+ * @package AmoCRM\Models
+ */
+class NoteModel extends AbstractModel
 {
+
+    /**
+     * Создание примечания (по одному или пакетно)
+     *
+     * @param NoteEntity[]|NoteEntity $notes
+     * @return array
+     * @throws AmoCRMException
+     */
     public function createNotes($notes)
     {
         $temp['add'] = array();
@@ -24,10 +37,10 @@ class NoteModel extends BaseModel
     }
 
     /**
-     * Undocumented function
+     * Получить примечания с возможностью фильтрации
      *
-     * @param [type] $type
-     * @param [type] $element_id
+     * @param int|null $type
+     * @param int|null $element_id
      * @return NoteEntity[]
      */
     public function getNotes($type = null, $element_id = null)

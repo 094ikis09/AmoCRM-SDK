@@ -3,20 +3,12 @@
 namespace AmoCRM\Contracts;
 
 use AmoCRM\AmoCRM;
-use AmoCRM\Exceptions\AmoCRMAPIException;
-use AmoCRM\Exceptions\AmoCRMAuthException;
-use AmoCRM\Exceptions\AmoCRMCatalogElementsException;
-use AmoCRM\Exceptions\AmoCRMCatalogsException;
-use AmoCRM\Exceptions\AmoCRMContactsException;
-use AmoCRM\Exceptions\AmoCRMCustomersException;
 use AmoCRM\Exceptions\AmoCRMException;
-use AmoCRM\Exceptions\AmoCRMLeadsException;
-use AmoCRM\Exceptions\AmoCRMNotesException;
-use AmoCRM\Exceptions\AmoCRMTasksException;
 
 
 /**
  * Interface AmoCRMInterface
+ * @package AmoCRM\Contracts
  * @package AmoCRM\Contracts
  */
 interface AmoCRMInterface
@@ -64,25 +56,18 @@ interface AmoCRMInterface
     /**
      * Обращение к REST API AmoCRM
      * @param string $methodName - Метод
+     * @param string $requestType
+     * @param bool $jsonEncode
+     * @param bool $ajax
+     * @param bool $cookie
      * @param array $getParameters - GET параметры
      * @param array $postParameters - POST параметры
      * @param null $modified - Изменено с...
      * @return array - Ответ от AmoCRM
-     * @throws AmoCRMAPIException
-     * @throws AmoCRMAuthException
-     * @throws AmoCRMCatalogElementsException
-     * @throws AmoCRMCatalogsException
-     * @throws AmoCRMContactsException
-     * @throws AmoCRMCustomersException
-     * @throws AmoCRMException
-     * @throws AmoCRMLeadsException
-     * @throws AmoCRMNotesException
-     * @throws AmoCRMTasksException
-     * @throws \Exception
      */
     public function call(
         $methodName,
-        $reqestType,
+        $requestType,
         $jsonEncode = true,
         $ajax = false,
         $cookie = false,

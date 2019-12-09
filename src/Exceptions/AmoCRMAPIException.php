@@ -2,9 +2,18 @@
 
 namespace AmoCRM\Exceptions;
 
-class AmoCRMAPIException extends \Exception
+use Exception;
+
+/**
+ * Class AmoCRMAPIException
+ * @package AmoCRM\Exceptions
+ */
+class AmoCRMAPIException extends Exception
 {
 
+    /**
+     * @var array
+     */
     protected $errors = array(
         101 => 'Аккаунт не найден',
         102 => 'POST-параметры должны передаваться в формате JSON',
@@ -12,6 +21,9 @@ class AmoCRMAPIException extends \Exception
         104 => 'Запрашиваемый метод API не найден',
     );
 
+    /**
+     * @var array
+     */
     private $otherErrors = array(
         400 => 'Неверная структура массива передаваемых данных, либо не верные идентификаторы кастомных полей',
         402 => 'Подписка закончилась',
@@ -20,6 +32,11 @@ class AmoCRMAPIException extends \Exception
         2002 => 'По вашему запросу ничего не найдено',
     );
 
+    /**
+     * AmoCRMAPIException constructor.
+     * @param int $code
+     * @param null $message
+     */
     public function __construct($code = 0, $message = null)
     {
         if (array_key_exists($code, $this->errors)) {

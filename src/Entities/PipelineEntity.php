@@ -3,10 +3,12 @@
 
 namespace AmoCRM\Entities;
 
+use AmoCRM\Exceptions\AmoCRMException;
+
 /**
  * Сущность воронки
  */
-class PipelineEntity extends BaseEntity
+class PipelineEntity extends AbstractEntity
 {
 
     private
@@ -18,6 +20,11 @@ class PipelineEntity extends BaseEntity
         $statuses = array(),
         $is_main;
 
+    /**
+     * PipelineEntity constructor.
+     * @param null $entity
+     * @throws AmoCRMException
+     */
     public function __construct($entity = null)
     {
         if (is_array($entity)) {
@@ -26,7 +33,7 @@ class PipelineEntity extends BaseEntity
             $this->sort = $entity['sort'];
             $this->is_main = $entity['is_main'];
             foreach ($entity['statuses'] as $key => $value) {
-                $this->statuses[$key] = new StatusEntity($value, $this->id);
+                $this->statuses[$key] = new StatusEntity($this->id, $value);
             }
         }
     }
@@ -35,11 +42,12 @@ class PipelineEntity extends BaseEntity
      * Добавить этап в воронку
      *
      * @return StatusEntity
+     * @throws AmoCRMException
      */
     public function addStatus()
     {
         $this->newStatusCount++;
-        return $this->statuses["new_$this->newStatusCount"] = new StatusEntity(null, $this->id != null ? $this->id : 0, count($this->statuses));
+        return $this->statuses["new_$this->newStatusCount"] = new StatusEntity($this->id != null ? $this->id : 0, null, count($this->statuses));
     }
 
     /**
@@ -47,6 +55,7 @@ class PipelineEntity extends BaseEntity
      *
      * @param int $id
      * @return StatusEntity|null
+     * @throws AmoCRMException
      */
     public function getStatusByID($id)
     {
@@ -62,6 +71,7 @@ class PipelineEntity extends BaseEntity
      *
      * @param string $name
      * @return StatusEntity[]
+     * @throws AmoCRMException
      */
     public function getStatusByName($name)
     {
@@ -82,6 +92,7 @@ class PipelineEntity extends BaseEntity
      *
      * @param StatusEntity $status
      * @return self
+     * @throws AmoCRMException
      */
     public function removeStatus($status)
     {
@@ -109,6 +120,7 @@ class PipelineEntity extends BaseEntity
      * Задать наименование воронки
      * @param string $name
      * @return  self
+     * @throws AmoCRMException
      */
     public function setName($name)
     {
@@ -134,6 +146,7 @@ class PipelineEntity extends BaseEntity
      * Задать порядковы номер воронки
      * @param int $sort
      * @return  self
+     * @throws AmoCRMException
      */
     public function setSort($sort)
     {
@@ -159,6 +172,7 @@ class PipelineEntity extends BaseEntity
      * Задать Является ли воронка “главной”
      * @param bool $is_main
      * @return  self
+     * @throws AmoCRMException
      */
     public function setIsMain($is_main)
     {

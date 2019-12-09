@@ -8,7 +8,7 @@ use AmoCRM\Exceptions\AmoCRMException;
 /**
  * Сущность сдлеки
  */
-class LeadEntity extends BaseEntity
+class LeadEntity extends AbstractEntity
 {
 
     protected
@@ -39,6 +39,10 @@ class LeadEntity extends BaseEntity
         $pipeline,
         $loss_reason_id;
 
+    /**
+     * LeadEntity constructor.
+     * @param null $entity
+     */
     public function __construct($entity = null)
     {
         if (is_array($entity)) {
@@ -81,6 +85,7 @@ class LeadEntity extends BaseEntity
      * Задать название сделки
      * @param string $name
      * @return  self
+     * @throws AmoCRMException
      */
     public function setName($name)
     {
@@ -106,6 +111,7 @@ class LeadEntity extends BaseEntity
      * Задать дату и время создания сделки
      * @param string $created_at
      * @return  self
+     * @throws AmoCRMException
      */
     public function setCreatedAt($created_at)
     {
@@ -132,6 +138,7 @@ class LeadEntity extends BaseEntity
      * Задать дату и время последнего изменения
      * @param string $updated_at
      * @return  self
+     * @throws AmoCRMException
      */
     public function setUpdatedAt($updated_at)
     {
@@ -158,6 +165,7 @@ class LeadEntity extends BaseEntity
      * Задать этап на котором находится сделка
      * @param int $status_id
      * @return  self
+     * @throws AmoCRMException
      */
     public function setStatusId($status_id)
     {
@@ -183,6 +191,7 @@ class LeadEntity extends BaseEntity
      * Задать воронку в которой находится сделка
      * @param int $pipeline_id
      * @return  self
+     * @throws AmoCRMException
      */
     public function setPipelineId($pipeline_id)
     {
@@ -229,6 +238,7 @@ class LeadEntity extends BaseEntity
      * Задать бюджет сделки
      * @param int $sale
      * @return  self
+     * @throws AmoCRMException
      */
     public function setSale($sale)
     {
@@ -282,6 +292,7 @@ class LeadEntity extends BaseEntity
      * Задать компанию
      * @param int $company_id
      * @return  self
+     * @throws AmoCRMException
      */
     public function setCompanyId($company_id)
     {
@@ -382,6 +393,7 @@ class LeadEntity extends BaseEntity
      * @param int $element_id
      * @param int $count
      * @return self
+     * @throws AmoCRMException
      */
     public function addCatalogElement($catalog_id, $element_id, $count)
     {
@@ -443,7 +455,9 @@ class LeadEntity extends BaseEntity
      * Получить товары в сделке
      *
      * @param AmoCRMInterface $client
+     * @param $catalog_id
      * @return array|null
+     * @throws AmoCRMException
      */
     public function getListCatalogElements($client, $catalog_id)
     {
@@ -495,8 +509,9 @@ class LeadEntity extends BaseEntity
     /**
      * Открепить контакты
      *
-     * @param int $contacts_id
+     * @param $company_id
      * @return self
+     * @throws AmoCRMException
      */
     public function setUnlinkCompany($company_id)
     {

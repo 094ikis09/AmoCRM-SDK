@@ -2,16 +2,26 @@
 
 namespace AmoCRM\Models;
 
-class TagModel extends BaseModel
+/**
+ * Модель для работы с тэгами
+ * @package AmoCRM\Models
+ */
+class TagModel extends AbstractModel
 {
-   public function getTags()
-   {
-      return $this->client->call(
-         '/v3/leads/tags',
-         'GET',
-         true,
-         true,
-         true
-      );
-   }
+    /**
+     * Получить созданные тэги
+     *
+     * @return array|null
+     */
+    public function getTags()
+    {
+        $temp = $this->client->call(
+            '/v3/leads/tags',
+            'GET',
+            true,
+            true,
+            true
+        );
+        return $temp === null ? null : $temp['_embedded']['items'];
+    }
 }
