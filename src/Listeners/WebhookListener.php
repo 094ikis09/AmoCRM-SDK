@@ -16,8 +16,11 @@ use AmoCRM\Exceptions\AmoCRMException;
  *
  * @package AmoCRM\Listeners
  */
-class Webhook
+class WebhookListener
 {
+    /**
+     * @var array
+     */
     private $hook_callback = array();
 
     /**
@@ -44,6 +47,11 @@ class Webhook
     }
 
 
+    /**
+     * Запустить обрабочик уведомления
+     *
+     * @return bool
+     */
     public function listen()
     {
         ignore_user_abort(true);
