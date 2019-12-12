@@ -134,7 +134,7 @@ class TaskModel extends AbstractModel
      * @param int|null $type
      * @param array $filter
      * @param bool $return_array
-     * @return array Ответ от AmoCRM
+     * @return array|TaskEntity|null Ответ от AmoCRM
      * @throws AmoCRMException
      */
     public function getTasks(
@@ -290,7 +290,7 @@ class TaskModel extends AbstractModel
      * Получить задачу по уникальному индификатору
      *
      * @param int $id
-     * @return array
+     * @return TaskEntity|null
      * @throws AmoCRMException
      */
     public function getTaskById($id)
