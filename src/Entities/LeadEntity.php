@@ -621,4 +621,16 @@ class LeadEntity extends AbstractEntity
     {
         return $this->loss_reason_id;
     }
+
+    public function generateQuery()
+    {
+        if(isset($this->getTags()[0]['name'])){
+            $tags = array();
+            foreach ($this->getTags() as $tag) {
+                $tags[] = $tag['name'];
+            }
+            $this->setTags($tags);
+        }
+        return parent::generateQuery();
+    }
 }
