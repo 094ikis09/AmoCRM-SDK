@@ -38,7 +38,8 @@ class LeadEntity extends AbstractEntity
         $contacts,
         $pipeline,
         $loss_reason_id,
-        $catalog_elements_links;
+        $catalog_elements_links,
+        $catalog_elements;
 
     /**
      * LeadEntity constructor.

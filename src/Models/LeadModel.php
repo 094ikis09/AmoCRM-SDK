@@ -100,6 +100,7 @@ class LeadModel extends AbstractModel
      * Получить сделку по id
      *
      * @param $id
+     * @param string $with
      * @return LeadEntity|null
      */
     public function getLeadById($id, $with = '')
