@@ -55,8 +55,10 @@ class LeadEntity extends AbstractEntity
                         }
                         break;
                     case 'custom_fields':
-                        foreach ($item['custom_fields'] as $custom_field) {
-                            $this->custom_fields[$item['id']] = $custom_field;
+                        if (isset($item)) {
+                            foreach ($item as $custom_field) {
+                                $this->custom_fields[$custom_field['id']] = $custom_field;
+                            }
                         }
                         break;
                     case '_embedded':
