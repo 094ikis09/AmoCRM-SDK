@@ -44,6 +44,14 @@ class LeadEntity extends AbstractEntity
     /**
      * @return array|null
      */
+    public function getCatalogElementsLinks()
+    {
+        return $this->catalog_elements_links;
+    }
+
+    /**
+     * @return array|null
+     */
     public function getCatalogElements()
     {
         return $this->catalog_elements;
