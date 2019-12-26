@@ -62,9 +62,11 @@ class LeadEntity extends AbstractEntity
                         }
                         break;
                     case '_embedded':
-                        foreach ($item['_embedded'] as $index => $embedded) {
-                            if (property_exists(self::class, $index)) {
-                                $this->$index = $embedded;
+                        if (isset($item)) {
+                            foreach ($item as $index => $embedded) {
+                                if (property_exists(self::class, $index)) {
+                                    $this->$index = $embedded;
+                                }
                             }
                         }
                         break;
