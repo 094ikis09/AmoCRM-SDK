@@ -37,7 +37,8 @@ class LeadEntity extends AbstractEntity
         $closest_task_at,
         $contacts,
         $pipeline,
-        $loss_reason_id;
+        $loss_reason_id,
+        $catalog_elements_links;
 
     /**
      * LeadEntity constructor.
@@ -46,29 +47,27 @@ class LeadEntity extends AbstractEntity
     public function __construct($entity = null)
     {
         if (is_array($entity)) {
-            $this->id = $entity['id'];
-            $this->name = $entity['name'];
-            $this->created_by = $entity['created_by'];
-            $this->created_at = $entity['created_at'];
-            $this->updated_at = $entity['updated_at'];
-            $this->account_id = $entity['account_id'];
-            $this->pipeline_id = $entity['pipeline_id'];
-            $this->status_id = $entity['status_id'];
-            $this->is_deleted = $entity['is_deleted'];
-            $this->main_contact = $entity['main_contact'];
-            $this->group_id = $entity['group_id'];
-            $this->company = $entity['company'];
-            $this->closed_at = $entity['closed_at'];
-            $this->closest_task_at = $entity['closest_task_at'];
-            $this->tags = $entity['tags'];
-            foreach ($entity['custom_fields'] as $item) {
-                $this->custom_fields[$item['id']] = $item;
+            foreach ($entity as $key => $item) {
+                switch ($key) {
+                    default:
+                        if (property_exists(self::class, $key)) {
+                            $this->$key = $item;
+                        }
+                        break;
+                    case 'custom_fields':
+                        foreach ($item['custom_fields'] as $custom_field) {
+                            $this->custom_fields[$item['id']] = $custom_field;
+                        }
+                        break;
+                    case '_embedded':
+                        foreach ($item['_embedded'] as $index => $embedded) {
+                            if (property_exists(self::class, $index)) {
+                                $this->$index = $embedded;
+                            }
+                        }
+                        break;
+                }
             }
-            $this->sale = $entity['sale'];
-            $this->loss_reason_id = $entity['loss_reason_id'];
-            $this->contacts = $entity['contacts'];
-            $this->pipeline = $entity['pipeline'];
-            $this->responsible_user_id = $entity['responsible_user_id'];
         }
     }
 
@@ -624,7 +623,7 @@ class LeadEntity extends AbstractEntity
 
     public function generateQuery()
     {
-        if(isset($this->getTags()[0]['name'])){
+        if (isset($this->getTags()[0]['name'])) {
             $tags = array();
             foreach ($this->getTags() as $tag) {
                 $tags[] = $tag['name'];
