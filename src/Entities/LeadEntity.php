@@ -42,6 +42,14 @@ class LeadEntity extends AbstractEntity
         $catalog_elements;
 
     /**
+     * @return array|null
+     */
+    public function getCatalogElements()
+    {
+        return $this->catalog_elements;
+    }
+
+    /**
      * LeadEntity constructor.
      * @param null $entity
      */
