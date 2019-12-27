@@ -105,6 +105,9 @@ class LeadModel extends AbstractModel
      */
     public function getLeadById($id, $with = '')
     {
+        if ($id === null) {
+            return null;
+        }
         $lead = $this->client->call('/api/v2/leads', 'GET', true, false, false, array('id' => $id, 'with' => $with));
         if (!isset($lead['_embedded']['items'][0])) {
             return null;
