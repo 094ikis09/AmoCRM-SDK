@@ -168,7 +168,7 @@ class LeadEntity extends AbstractEntity
         }
 
         $this->updated_at = $updated_at;
-
+        $this->setUpdatedTime = true;
         return $this;
     }
 
@@ -650,6 +650,9 @@ class LeadEntity extends AbstractEntity
                 $tags[] = $tag['name'];
             }
             $this->setTags($tags);
+        }
+        if (!$this->setUpdatedTime) {
+            $this->setUpdatedAt(date('d.m.Y H:i:s'));
         }
         return parent::generateQuery();
     }

@@ -5,7 +5,7 @@ namespace AmoCRM\Entities;
 
 abstract class AbstractEntity
 {
-
+    protected $setUpdatedTime = false;
     protected $id;
 
     /**
