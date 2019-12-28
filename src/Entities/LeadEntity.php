@@ -40,6 +40,7 @@ class LeadEntity extends AbstractEntity
         $loss_reason_id,
         $catalog_elements_links,
         $catalog_elements;
+    private $saleUpdated = false;
 
     /**
      * @return array|null
@@ -265,7 +266,7 @@ class LeadEntity extends AbstractEntity
         if (!is_numeric($sale)) {
             throw new AmoCRMException('Передаваемая переменная не является числом');
         }
-
+        $this->saleUpdated = true;
         $this->sale = $sale;
 
         return $this;
@@ -653,6 +654,9 @@ class LeadEntity extends AbstractEntity
         }
         if (!$this->setUpdatedTime) {
             $this->setUpdatedAt(date('d.m.Y H:i:s'));
+        }
+        if (!$this->saleUpdated) {
+            $this->sale = null;
         }
         return parent::generateQuery();
     }
